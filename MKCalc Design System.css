@@ -1,0 +1,493 @@
+/*
+  ============================================================
+  MKCalc — Design System / Aparência
+  Paleta · Tipografia · Sombras · Layout · Componentes
+  ============================================================
+  Fontes (adicionar no <head>):
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  Uso:
+    - Serif display  → font-family: 'Fraunces', Georgia, serif;
+    - Body / UI      → font-family: 'DM Sans', sans-serif;
+    - Código / mono  → font-family: 'DM Mono', monospace;
+  ============================================================
+*/
+
+/* ============================================================
+   TOKENS — MODO CLARO
+   ============================================================ */
+:root {
+  /* --- Paleta principal --- */
+  --bg:           #ede4d8;   /* fundo geral (putty quente) */
+  --bg-2:         #e2d6c6;   /* fundo secundário */
+
+  --peach:        #f4c8a8;   /* pêssego principal */
+  --peach-2:      #efb595;   /* pêssego médio */
+  --peach-deep:   #d99570;   /* pêssego escuro / destaque / CTA */
+
+  --blue:         #b9c8d6;   /* azul pó */
+  --blue-2:       #9fb4c6;   /* azul médio */
+  --blue-deep:    #6f8ba3;   /* azul escuro */
+
+  --rose:         #f0c9c0;   /* rosa pó */
+  --rose-2:       #e5b4a8;   /* rosa médio */
+
+  --cream:        #f7ecd9;   /* creme (surface principal) */
+  --cream-2:      #f0e2c8;   /* creme escuro */
+
+  --sage:         #c9d4b9;   /* sálvia */
+  --plum:         #c8a8b9;   /* ameixa */
+
+  /* --- Tipografia / tinta --- */
+  --ink:          #3a2e2a;   /* texto principal */
+  --ink-2:        #6b574e;   /* texto secundário */
+  --ink-3:        #9a8678;   /* texto terciário / labels */
+
+  /* --- Linhas / divisores --- */
+  --line:         rgba(58, 46, 42, 0.10);
+  --line-2:       rgba(58, 46, 42, 0.18);
+
+  /* --- Superfícies (cards) --- */
+  --surface:      #f7ecd9;
+  --surface-2:    #efe2cc;
+  --surface-soft: #faf2e4;
+
+  /* --- Sombras claymorphism --- */
+  --shadow-clay-out:  12px 12px 32px rgba(168, 134, 100, .25),
+                      -8px -8px 24px rgba(255, 250, 240, .65);
+  --shadow-clay-soft: 6px 6px 16px rgba(168, 134, 100, .18),
+                      -4px -4px 12px rgba(255, 250, 240, .55);
+  --shadow-clay-in:   inset 4px 4px 10px rgba(168, 134, 100, .18),
+                      inset -4px -4px 10px rgba(255, 250, 240, .6);
+  --shadow-pop:       16px 20px 40px rgba(168, 134, 100, .22),
+                      0 0 0 1px rgba(255, 250, 240, .5) inset;
+
+  /* --- Raios de borda --- */
+  --r-sm:   14px;
+  --r-md:   22px;
+  --r-lg:   32px;
+  --r-xl:   44px;
+  --r-pill: 999px;
+}
+
+/* ============================================================
+   TOKENS — MODO ESCURO
+   ============================================================ */
+[data-theme="dark"] {
+  --bg:           #2a201c;
+  --bg-2:         #221915;
+  --peach:        #c9876a;
+  --peach-2:      #b87457;
+  --peach-deep:   #d99570;
+  --blue:         #7a8da0;
+  --blue-2:       #6b7e91;
+  --blue-deep:    #97aec3;
+  --rose:         #b8867d;
+  --rose-2:       #a87268;
+  --cream:        #3a2e26;
+  --cream-2:      #4a3a30;
+  --sage:         #8a9b78;
+  --plum:         #9a7484;
+  --ink:          #f4e8d8;
+  --ink-2:        #c9b6a4;
+  --ink-3:        #8a7868;
+  --line:         rgba(244, 232, 216, 0.08);
+  --line-2:       rgba(244, 232, 216, 0.16);
+  --surface:      #3a2e26;
+  --surface-2:    #2e2520;
+  --surface-soft: #443328;
+  --shadow-clay-out:  12px 12px 32px rgba(0,0,0,.5),
+                      -6px -6px 18px rgba(80, 60, 48, .25);
+  --shadow-clay-soft: 6px 6px 16px rgba(0,0,0,.4),
+                      -3px -3px 10px rgba(80, 60, 48, .2);
+  --shadow-clay-in:   inset 4px 4px 10px rgba(0,0,0,.4),
+                      inset -3px -3px 10px rgba(80, 60, 48, .2);
+  --shadow-pop:       16px 20px 40px rgba(0,0,0,.5),
+                      0 0 0 1px rgba(244, 232, 216, .04) inset;
+}
+
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(244, 200, 168, .35), transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(185, 200, 214, .35), transparent 50%),
+    radial-gradient(ellipse at 60% 30%, rgba(240, 201, 192, .25), transparent 55%),
+    var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  min-width: 1440px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Helpers de tipografia */
+.serif { font-family: 'Fraunces', Georgia, serif; font-weight: 500; letter-spacing: -0.02em; }
+.mono  { font-family: 'DM Mono', ui-monospace, monospace; }
+
+/* ============================================================
+   BLOBS 3D — decoração de fundo
+   ============================================================ */
+.ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.blob3d  { position: absolute; border-radius: 50%; filter: blur(0.5px); }
+
+.blob3d.b1 { width: 180px; height: 180px; top: 8%; left: -60px;
+  background: radial-gradient(circle at 35% 30%, #fde3d0 0%, var(--peach) 45%, var(--peach-deep) 100%);
+  box-shadow: 18px 22px 40px rgba(217, 149, 112, .3); }
+
+.blob3d.b2 { width: 80px; height: 80px; top: 18%; right: 12%;
+  background: radial-gradient(circle at 30% 25%, #dce6ee 0%, var(--blue) 50%, var(--blue-deep) 100%);
+  box-shadow: 10px 14px 24px rgba(111, 139, 163, .35); }
+
+.blob3d.b3 { width: 140px; height: 100px; bottom: 12%; left: 4%;
+  background: radial-gradient(ellipse at 35% 30%, #fad9d0 0%, var(--rose) 50%, var(--rose-2) 100%);
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  box-shadow: 12px 16px 30px rgba(229, 180, 168, .3); }
+
+.blob3d.b4 { width: 110px; height: 90px; bottom: 18%; right: 8%;
+  background: radial-gradient(ellipse at 35% 30%, #fff7e6 0%, var(--cream) 50%, var(--cream-2) 100%);
+  border-radius: 55% 45% 50% 50% / 55% 50% 50% 45%;
+  box-shadow: 10px 14px 26px rgba(168, 134, 100, .22); }
+
+.blob3d.b5 { width: 36px; height: 36px; top: 60%; left: 18%;
+  background: radial-gradient(circle at 30% 25%, #e6ecdc 0%, var(--sage) 60%, #95a684 100%);
+  box-shadow: 6px 8px 14px rgba(149, 166, 132, .3); }
+
+.blob3d.b6 { width: 28px; height: 28px; top: 52%; right: 28%;
+  background: radial-gradient(circle at 30% 25%, #e8d4dd 0%, var(--plum) 60%, #a47e8e 100%);
+  box-shadow: 5px 6px 12px rgba(164, 126, 142, .3); }
+
+[data-theme="dark"] .blob3d { opacity: 0.5; }
+
+/* ============================================================
+   SHELL — app wrapper
+   ============================================================ */
+.app { max-width: 1360px; margin: 0 auto; padding: 28px 32px 80px; position: relative; z-index: 2; }
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px 12px 16px;
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-clay-out);
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--surface-soft);
+  box-shadow: var(--shadow-clay-soft), inset 2px 3px 5px rgba(255,250,240,.5);
+  display: grid; place-items: center; overflow: hidden; padding: 4px;
+}
+.brand-icon img {
+  width: 100%; height: 100%; object-fit: contain;
+  filter: hue-rotate(-65deg) saturate(0.55) brightness(1.05);
+  mix-blend-mode: multiply;
+}
+[data-theme="dark"] .brand-icon img { filter: hue-rotate(-65deg) saturate(0.55) brightness(1.4); mix-blend-mode: screen; }
+
+.brand-name { font-family: 'Fraunces', Georgia, serif; font-weight: 500; font-size: 26px; line-height: 1; letter-spacing: -0.02em; }
+.brand-name span { color: var(--peach-deep); }
+.brand-tag { font-size: 10px; color: var(--ink-3); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; font-weight: 500; }
+
+.nav { display: flex; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: var(--r-pill); box-shadow: var(--shadow-clay-in); }
+.nav a { padding: 8px 16px; border-radius: var(--r-pill); font-size: 13px; color: var(--ink-2); text-decoration: none; font-weight: 500; transition: all .2s; }
+.nav a:hover { color: var(--ink); }
+.nav a.active { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-clay-soft); }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.icon-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: var(--surface); color: var(--ink-2);
+  display: grid; place-items: center; cursor: pointer;
+  box-shadow: var(--shadow-clay-soft); transition: all .2s;
+}
+.icon-btn:hover  { color: var(--ink); transform: translateY(-1px); }
+.icon-btn:active { box-shadow: var(--shadow-clay-in); transform: none; }
+
+.avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #dce6ee 0%, var(--blue) 50%, var(--blue-deep) 100%);
+  box-shadow: var(--shadow-clay-soft), inset 2px 3px 5px rgba(255,250,240,.5);
+  display: grid; place-items: center;
+  color: white; font-weight: 600; font-size: 15px; font-family: 'Fraunces', serif;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero { margin: 40px 8px 28px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
+.hero h1 { font-family: 'Fraunces', Georgia, serif; font-size: 64px; line-height: 1.0; margin: 0; letter-spacing: -0.03em; font-weight: 500; }
+.hero h1 .accent { color: var(--peach-deep); font-style: italic; font-weight: 400; }
+.hero .eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); padding: 8px 16px; border-radius: var(--r-pill);
+  font-size: 12px; color: var(--ink-2); letter-spacing: 0.06em;
+  text-transform: uppercase; font-weight: 500;
+  box-shadow: var(--shadow-clay-soft); margin-bottom: 20px;
+}
+.hero .eyebrow .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #fde3d0, var(--peach) 60%, var(--peach-deep));
+  box-shadow: 1px 2px 3px rgba(217, 149, 112, .5);
+}
+.hero p { color: var(--ink-2); font-size: 16px; line-height: 1.6; max-width: 560px; margin: 18px 0 0; }
+.hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 11px; color: var(--ink-3); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+.hero-meta strong { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; color: var(--ink); letter-spacing: -0.012em; text-transform: none; margin-bottom: 2px; }
+
+/* ============================================================
+   GRID PRINCIPAL
+   ============================================================ */
+.main-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; }
+.main-grid > * { min-width: 0; }
+
+/* ============================================================
+   CARD (claymorphism)
+   ============================================================ */
+.card { background: var(--surface); border-radius: var(--r-xl); padding: 32px; box-shadow: var(--shadow-clay-out); position: relative; }
+.card.feature { background: linear-gradient(160deg, var(--cream) 0%, #f9e8d0 60%, var(--peach) 140%); box-shadow: var(--shadow-pop); }
+[data-theme="dark"] .card.feature { background: linear-gradient(160deg, var(--surface) 0%, #4a3a2c 60%, var(--peach-2) 180%); }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; gap: 16px; }
+.card-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; line-height: 1.05; margin: 0; letter-spacing: -0.022em; }
+.card-sub { font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 8px; font-weight: 600; }
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 5px; border-radius: var(--r-pill); margin-bottom: 22px; box-shadow: var(--shadow-clay-in); }
+.tab { flex: 1; min-width: 0; padding: 11px 12px; border-radius: var(--r-pill); border: none; background: transparent; color: var(--ink-2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .25s ease; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.tab:hover { color: var(--ink); }
+.tab.active { background: var(--ink); color: var(--cream); box-shadow: var(--shadow-clay-soft), inset 1px 2px 3px rgba(255,250,240,.08); }
+.tab-tip { font-size: 11.5px; color: var(--ink-3); margin-bottom: 18px; line-height: 1.55; }
+
+/* ============================================================
+   DATE PICKER (custom)
+   ============================================================ */
+.date-picker { position: relative; }
+.date-trigger {
+  background: var(--surface-2); border: none; border-radius: var(--r-md);
+  padding: 16px 18px; font-size: 15px; color: var(--ink); font-family: inherit;
+  text-align: left; cursor: pointer; width: 100%;
+  box-shadow: var(--shadow-clay-in); transition: all .2s ease;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.date-trigger:hover { background: var(--surface-soft); }
+.date-trigger.open { background: var(--surface-soft); box-shadow: var(--shadow-clay-in), 0 0 0 3px rgba(217, 149, 112, .25); }
+.date-trigger .placeholder { color: var(--ink-3); }
+.date-trigger .chev { color: var(--ink-3); transition: transform .2s; flex-shrink: 0; }
+.date-trigger.open .chev { transform: rotate(180deg); }
+
+.date-popover {
+  position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+  background: var(--surface); border-radius: var(--r-lg); padding: 20px;
+  box-shadow: var(--shadow-clay-out), 0 8px 32px rgba(58, 46, 42, .12);
+  z-index: 50; animation: popIn .25s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.dp-month-btn { background: var(--surface-2); border: none; padding: 8px 14px; border-radius: var(--r-pill); font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink); font-weight: 500; cursor: pointer; box-shadow: var(--shadow-clay-soft); display: flex; align-items: center; gap: 8px; transition: all .2s; }
+.dp-month-btn:hover { transform: translateY(-1px); }
+.dp-nav { display: flex; gap: 6px; }
+.dp-nav-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--surface-2); color: var(--ink-2); cursor: pointer; display: grid; place-items: center; box-shadow: var(--shadow-clay-soft); transition: all .15s; }
+.dp-nav-btn:hover  { color: var(--ink); transform: translateY(-1px); }
+.dp-nav-btn:active { box-shadow: var(--shadow-clay-in); transform: none; }
+.dp-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.dp-dow { font-size: 10px; font-weight: 700; color: var(--ink-3); text-align: center; text-transform: uppercase; letter-spacing: 0.12em; padding: 8px 0 4px; }
+.dp-day { aspect-ratio: 1; border: none; background: transparent; border-radius: 50%; color: var(--ink); font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s; display: grid; place-items: center; }
+.dp-day:hover    { background: var(--surface-2); box-shadow: var(--shadow-clay-soft); }
+.dp-day.muted    { color: var(--ink-3); opacity: 0.5; }
+.dp-day.today    { color: var(--peach-deep); font-weight: 700; }
+.dp-day.selected { background: radial-gradient(circle at 35% 30%, #fde3d0, var(--peach) 70%, var(--peach-deep) 100%); color: white; box-shadow: 4px 5px 10px rgba(217, 149, 112, .4), inset 2px 3px 4px rgba(255,250,240,.5); font-weight: 700; }
+.dp-foot { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line-2); }
+.dp-foot button { background: transparent; border: none; color: var(--peach-deep); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: var(--r-pill); transition: all .2s; }
+.dp-foot button:hover { background: var(--surface-2); }
+.dp-month-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 4px; }
+.dp-month-opt { padding: 12px 8px; border-radius: var(--r-md); border: none; background: var(--surface-2); color: var(--ink); font-family: 'Fraunces', serif; font-size: 14px; cursor: pointer; box-shadow: var(--shadow-clay-soft); transition: all .15s; }
+.dp-month-opt:hover  { transform: translateY(-1px); }
+.dp-month-opt.active { background: radial-gradient(circle at 35% 30%, #fde3d0, var(--peach) 80%); color: white; box-shadow: 4px 5px 10px rgba(217, 149, 112, .4), inset 2px 3px 4px rgba(255,250,240,.5); }
+.dp-year-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; }
+.dp-year { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; min-width: 60px; text-align: center; }
+
+/* ============================================================
+   FORMULÁRIOS
+   ============================================================ */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.field-row.single { grid-template-columns: 1fr; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label { font-size: 10.5px; color: var(--ink-2); letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+.input { background: var(--surface-2); border: none; border-radius: var(--r-md); padding: 16px 18px; font-size: 15px; color: var(--ink); font-family: inherit; transition: all .2s ease; outline: none; box-shadow: var(--shadow-clay-in); }
+.input:focus { background: var(--surface-soft); box-shadow: var(--shadow-clay-in), 0 0 0 3px rgba(217, 149, 112, .25); }
+.input::placeholder { color: var(--ink-3); }
+
+.helper { font-size: 12.5px; color: var(--ink-2); line-height: 1.6; background: var(--surface-2); border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 18px; display: flex; gap: 12px; align-items: flex-start; box-shadow: var(--shadow-clay-in); }
+.helper .ico { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; background: radial-gradient(circle at 30% 25%, #fde3d0, var(--peach) 60%, var(--peach-deep)); box-shadow: 2px 3px 6px rgba(217, 149, 112, .4); display: grid; place-items: center; color: white; }
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+.btn-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.btn { padding: 14px 24px; border-radius: var(--r-pill); border: none; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn.primary { background: var(--ink); color: var(--cream); box-shadow: var(--shadow-clay-soft), inset 1px 2px 3px rgba(255,250,240,.1); }
+.btn.primary:hover  { transform: translateY(-1px); }
+.btn.primary:active { box-shadow: var(--shadow-clay-in); transform: none; }
+.btn.ghost { background: var(--surface); color: var(--ink-2); box-shadow: var(--shadow-clay-soft); }
+.btn.ghost:hover { color: var(--ink); transform: translateY(-1px); }
+
+/* ============================================================
+   RESULTADO — IG display com orb
+   ============================================================ */
+.ig-display { display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: center; margin: 8px 0; }
+.ig-orb { position: relative; width: 200px; height: 200px; }
+.ig-orb .ring-bg { position: absolute; inset: 0; border-radius: 50%; background: var(--surface-2); box-shadow: var(--shadow-clay-in); }
+.ig-orb svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ig-orb .ring-fg { stroke: url(#peachGrad); transition: stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1); filter: drop-shadow(2px 3px 4px rgba(217, 149, 112, .35)); }
+.ig-orb-center { position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff7e6 0%, var(--cream) 60%, var(--cream-2) 100%); box-shadow: var(--shadow-clay-soft), inset 2px 3px 5px rgba(255,250,240,.6); display: grid; place-items: center; text-align: center; }
+[data-theme="dark"] .ig-orb-center { background: radial-gradient(circle at 35% 30%, #4a3a30 0%, var(--surface) 60%, var(--surface-2) 100%); }
+.ig-num { font-family: 'Fraunces', serif; font-size: 56px; line-height: 1; letter-spacing: -0.03em; font-weight: 500; }
+.ig-num .accent { color: var(--peach-deep); font-style: italic; font-weight: 400; }
+.ig-unit { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.18em; margin-top: 6px; font-weight: 600; }
+.ig-summary { display: flex; flex-direction: column; gap: 14px; }
+.ig-summary .row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--line-2); }
+.ig-summary .row:last-child { border-bottom: none; }
+.ig-summary .row .lbl { color: var(--ink-3); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; }
+.ig-summary .row .val { font-family: 'Fraunces', serif; font-size: 22px; letter-spacing: -0.012em; font-weight: 500; }
+
+/* ============================================================
+   BARRA DE TRIMESTRE
+   ============================================================ */
+.trimester-bar { margin-top: 8px; }
+.tri-track { height: 16px; background: var(--surface-2); border-radius: var(--r-pill); position: relative; box-shadow: var(--shadow-clay-in); }
+.tri-fill { position: absolute; inset: 2px auto 2px 2px; height: calc(100% - 4px); background: linear-gradient(90deg, var(--peach), var(--peach-deep)); border-radius: var(--r-pill); box-shadow: 2px 2px 6px rgba(217, 149, 112, .35); transition: width .8s cubic-bezier(.2,.8,.2,1); }
+.tri-marker { position: absolute; top: -6px; width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff7e6, var(--cream) 70%); box-shadow: 4px 6px 12px rgba(168, 134, 100, .4), inset 2px 3px 4px rgba(255,250,240,.5); transform: translateX(-50%); transition: left .8s cubic-bezier(.2,.8,.2,1); }
+.tri-labels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+.tri-labels span { text-align: center; }
+.tri-labels span:first-child { text-align: left; }
+.tri-labels span:last-child  { text-align: right; }
+.tri-labels span.active { color: var(--peach-deep); font-weight: 700; }
+
+/* ============================================================
+   MARCOS / MILESTONES
+   ============================================================ */
+.milestones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 6px; }
+.milestone { background: var(--surface); border-radius: var(--r-md); padding: 18px 20px; box-shadow: var(--shadow-clay-soft); position: relative; overflow: hidden; }
+.milestone::before { content: ""; position: absolute; width: 50px; height: 50px; top: -12px; right: -12px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fde3d0, var(--peach) 60%); opacity: 0.5; }
+.milestone .lbl { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 8px; font-weight: 600; position: relative; }
+.milestone .val { font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.1; letter-spacing: -0.018em; font-weight: 500; position: relative; }
+.milestone .sub { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.5; position: relative; }
+
+/* ============================================================
+   BABY CARD
+   ============================================================ */
+.baby-card { background: linear-gradient(140deg, var(--blue) 0%, #c9d6e2 50%, var(--cream) 100%); border-radius: var(--r-xl); padding: 28px; box-shadow: var(--shadow-clay-out); position: relative; overflow: hidden; min-height: 260px; }
+[data-theme="dark"] .baby-card { background: linear-gradient(140deg, var(--blue-2) 0%, #4a3a30 50%, var(--surface) 100%); }
+.baby-card .orb-stage { display: grid; place-items: center; margin: 16px 0 12px; position: relative; height: 140px; }
+.baby-orb { width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #fde3d0 0%, var(--peach) 50%, var(--peach-deep) 100%); box-shadow: 14px 18px 32px rgba(217, 149, 112, .4), inset -6px -8px 16px rgba(168, 96, 96, .2), inset 4px 5px 10px rgba(255, 250, 240, .55); position: relative; }
+.baby-orb::after { content: ""; position: absolute; width: 32px; height: 18px; top: 22%; left: 28%; background: rgba(255, 250, 240, .55); border-radius: 50%; filter: blur(3px); }
+.baby-orb-mini { position: absolute; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #dce6ee 0%, var(--blue) 60%, var(--blue-deep) 100%); box-shadow: 4px 6px 12px rgba(111, 139, 163, .35), inset 2px 3px 4px rgba(255,250,240,.45); }
+.baby-orb-mini.m1 { width: 36px; height: 36px; top: 8px; right: 28px; }
+.baby-orb-mini.m2 { width: 22px; height: 22px; bottom: 12px; left: 32px; background: radial-gradient(circle at 30% 25%, #fad9d0, var(--rose) 60%, var(--rose-2) 100%); }
+.baby-meta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.baby-fact { background: rgba(255, 250, 240, .55); backdrop-filter: blur(8px); border-radius: var(--r-md); padding: 12px 14px; box-shadow: inset 1px 2px 4px rgba(255,250,240,.5); }
+[data-theme="dark"] .baby-fact { background: rgba(58, 46, 38, .5); }
+.baby-fact .lbl { font-size: 9.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; }
+.baby-fact .val { font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.1; letter-spacing: -0.012em; margin-top: 4px; font-weight: 500; }
+
+/* ============================================================
+   TIMELINE DE SEMANAS
+   ============================================================ */
+.timeline-wrap { overflow-x: auto; margin: 0 -8px; padding: 4px 8px 12px; max-width: 100%; min-width: 0; }
+.timeline { display: flex; gap: 6px; min-width: 100%; }
+.week-pill { flex-shrink: 0; min-width: 48px; height: 60px; border-radius: var(--r-md); background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-3); cursor: pointer; transition: all .2s; box-shadow: var(--shadow-clay-in); font-weight: 500; letter-spacing: 0.06em; }
+.week-pill .num { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink); margin-bottom: 2px; font-weight: 500; }
+.week-pill:hover { transform: translateY(-1px); }
+.week-pill.past { background: var(--surface); box-shadow: var(--shadow-clay-soft); }
+.week-pill.past .num { color: var(--peach-deep); }
+.week-pill.current { background: radial-gradient(circle at 35% 30%, #fde3d0, var(--peach) 70%); box-shadow: 6px 8px 16px rgba(217, 149, 112, .4), inset 2px 3px 4px rgba(255,250,240,.5); transform: scale(1.1); }
+.week-pill.current .num, .week-pill.current { color: white; }
+.timeline-wrap::-webkit-scrollbar { height: 6px; }
+.timeline-wrap::-webkit-scrollbar-track { background: transparent; }
+.timeline-wrap::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: var(--r-pill); }
+
+/* ============================================================
+   EXAMES
+   ============================================================ */
+.exams { display: flex; flex-direction: column; gap: 12px; }
+.exam { display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; padding: 14px 18px 14px 14px; background: var(--surface); border-radius: var(--r-md); box-shadow: var(--shadow-clay-soft); cursor: pointer; transition: all .2s; }
+.exam:hover { transform: translateY(-1px); }
+.exam-icon { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: white; }
+.exam-icon.usg    { background: radial-gradient(circle at 30% 25%, #dce6ee, var(--blue) 60%, var(--blue-deep)); box-shadow: 4px 5px 10px rgba(111, 139, 163, .35), inset 2px 3px 4px rgba(255,250,240,.5); }
+.exam-icon.sangue { background: radial-gradient(circle at 30% 25%, #fad9d0, var(--rose) 60%, var(--rose-2)); box-shadow: 4px 5px 10px rgba(229, 180, 168, .4), inset 2px 3px 4px rgba(255,250,240,.5); }
+.exam-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.exam-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.exam-when { font-size: 12px; color: var(--ink-3); }
+.exam-week { font-family: 'Fraunces', serif; font-size: 18px; color: var(--peach-deep); font-weight: 500; letter-spacing: -0.01em; }
+
+/* ============================================================
+   PERÍODO FÉRTIL — lista de datas
+   ============================================================ */
+.date-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.date-item { display: grid; grid-template-columns: 30px 1fr auto auto; gap: 12px; align-items: center; padding: 8px 12px; background: var(--surface-2); border-radius: var(--r-md); box-shadow: var(--shadow-clay-in); }
+.date-item .date-picker { min-width: 0; }
+.date-item .date-trigger { background: var(--surface); box-shadow: var(--shadow-clay-soft); padding: 10px 14px; font-size: 13px; }
+.date-item .idx { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #fad9d0, var(--rose) 60%, var(--rose-2)); color: white; display: grid; place-items: center; font-size: 11px; font-weight: 700; box-shadow: 2px 3px 5px rgba(229, 180, 168, .4); }
+.date-item .gap-tag { font-size: 11px; color: var(--ink-2); font-family: 'DM Mono', monospace; padding: 5px 12px; background: var(--surface); border-radius: var(--r-pill); white-space: nowrap; box-shadow: var(--shadow-clay-soft); }
+.date-item .remove { background: transparent; border: none; color: var(--ink-3); cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; transition: all .2s; }
+.date-item .remove:hover { background: var(--surface); box-shadow: var(--shadow-clay-soft); color: var(--ink); }
+.add-date { background: var(--surface-2); border: none; border-radius: var(--r-md); padding: 14px; color: var(--peach-deep); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-clay-in); transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
+.add-date:hover { color: var(--ink); }
+
+.cycle-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 18px; }
+.cycle-summary .col { background: var(--surface); border-radius: var(--r-md); padding: 14px; text-align: center; box-shadow: var(--shadow-clay-soft); }
+.cycle-summary .lbl { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; }
+.cycle-summary .val { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1; letter-spacing: -0.018em; margin-top: 6px; font-weight: 500; }
+
+/* ============================================================
+   BANNER DIA 1 + FASES DO CICLO
+   ============================================================ */
+.day-one-banner { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: linear-gradient(95deg, var(--rose), var(--peach)); border-radius: var(--r-md); margin: 16px 0 20px; font-size: 13px; color: var(--ink); line-height: 1.5; box-shadow: var(--shadow-clay-soft); }
+.day-one-badge { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff7e6 0%, var(--cream) 100%); color: var(--peach-deep); display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; box-shadow: 4px 5px 10px rgba(168, 134, 100, .35), inset 2px 3px 5px rgba(255,250,240,.6); }
+.day-one-banner em { font-style: normal; font-weight: 600; }
+
+.fertil-result { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+.fertil-card { padding: 18px; border-radius: var(--r-md); background: var(--surface); box-shadow: var(--shadow-clay-soft); }
+.fertil-card.peak { background: radial-gradient(circle at 30% 25%, #fde3d0, var(--peach) 80%); box-shadow: 8px 10px 20px rgba(217, 149, 112, .35), inset 2px 3px 5px rgba(255,250,240,.5); }
+.fertil-card.peak .lbl, .fertil-card.peak .val, .fertil-card.peak .sub { color: var(--ink); }
+.fertil-card .lbl { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; margin-bottom: 6px; }
+.fertil-card .val { font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.15; letter-spacing: -0.012em; font-weight: 500; }
+.fertil-card .sub { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+
+.phases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 8px; }
+.phase-card { border-radius: var(--r-md); padding: 18px; background: var(--surface); box-shadow: var(--shadow-clay-soft); position: relative; overflow: hidden; min-height: 178px; }
+.phase-card .phase-orb { width: 56px; height: 56px; border-radius: 50%; margin-bottom: 14px; }
+.phase-card.menses    .phase-orb { background: radial-gradient(circle at 30% 25%, #fad9d0, var(--rose) 50%, var(--rose-2)); box-shadow: 4px 5px 12px rgba(229, 180, 168, .4), inset 2px 3px 5px rgba(255,250,240,.5); }
+.phase-card.follicular .phase-orb { background: radial-gradient(circle at 30% 25%, #fff0d8, var(--cream-2) 60%, #d4b88a); box-shadow: 4px 5px 12px rgba(168, 134, 100, .3), inset 2px 3px 5px rgba(255,250,240,.5); }
+.phase-card.ovulation  .phase-orb { background: radial-gradient(circle at 30% 25%, #fde3d0, var(--peach) 60%, var(--peach-deep)); box-shadow: 4px 5px 12px rgba(217, 149, 112, .4), inset 2px 3px 5px rgba(255,250,240,.5); }
+.phase-card.luteal     .phase-orb { background: radial-gradient(circle at 30% 25%, #dce6ee, var(--blue) 60%, var(--blue-deep)); box-shadow: 4px 5px 12px rgba(111, 139, 163, .35), inset 2px 3px 5px rgba(255,250,240,.5); }
+.phase-card .phase-day  { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.16em; font-family: 'DM Mono', monospace; margin-bottom: 4px; font-weight: 600; }
+.phase-card .phase-name { font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.1; letter-spacing: -0.018em; margin-bottom: 8px; font-weight: 500; }
+.phase-card .phase-desc { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+
+/* ============================================================
+   NOTAS / DEV NOTES
+   ============================================================ */
+.dev-notes { background: var(--surface-2); border-radius: var(--r-md); padding: 20px 22px; margin-top: 16px; box-shadow: var(--shadow-clay-in); }
+.dev-notes p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--ink-2); }
+.dev-notes p + p { margin-top: 10px; }
+.dev-notes em { color: var(--peach-deep); font-style: italic; font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-note { text-align: center; margin-top: 36px; font-size: 11px; color: var(--ink-3); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; }
