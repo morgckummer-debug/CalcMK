@@ -1,18 +1,14 @@
-// Calculator card with 4 tabs
+// Calculator card — claymorphism style
 
 function Calculator({ result, setResult }) {
   const [tab, setTab] = React.useState('dum');
-  const { igFromLMP, dppFromLMP, igFromUSG, dppFromUSG, igFromDPP, fertileWindow, fmtDate } = window.PregData;
+  const { igFromLMP, dppFromLMP, igFromUSG, dppFromUSG, igFromDPP } = window.PregData;
 
-  // DUM
   const [lmp, setLmp] = React.useState('2025-09-15');
-  // USG
   const [usgDate, setUsgDate] = React.useState('2026-01-10');
   const [usgW, setUsgW] = React.useState(16);
   const [usgD, setUsgD] = React.useState(3);
-  // DPP
   const [dpp, setDpp] = React.useState('2026-06-22');
-  // Fertil — list of period dates (min 2)
   const [periodDates, setPeriodDates] = React.useState(['2026-02-15', '2026-03-14', '2026-04-11']);
 
   const calculate = () => {
@@ -51,7 +47,7 @@ function Calculator({ result, setResult }) {
         </div>
       </div>
 
-      <div className="tabs" role="tablist">
+      <div className="tabs">
         {tabs.map(t => (
           <button key={t.id} className={`tab ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>
             <t.icon /> {t.label}
@@ -60,7 +56,7 @@ function Calculator({ result, setResult }) {
       </div>
 
       <div className="helper">
-        <I.info />
+        <div className="ico"><I.info /></div>
         <span><strong style={{color: 'var(--ink)'}}>{activeTab.label}.</strong> {activeTab.hint}. Preencha abaixo e o cálculo é atualizado automaticamente.</span>
       </div>
 
@@ -68,7 +64,7 @@ function Calculator({ result, setResult }) {
         <div className="field-row single">
           <div className="field">
             <label>Primeiro dia da última menstruação</label>
-            <input className="input" type="date" value={lmp} onChange={e => setLmp(e.target.value)} max="2026-05-06" />
+            <window.DatePicker value={lmp} onChange={setLmp} max="2026-05-06" />
           </div>
         </div>
       )}
@@ -78,7 +74,7 @@ function Calculator({ result, setResult }) {
           <div className="field-row single">
             <div className="field">
               <label>Data do ultrassom</label>
-              <input className="input" type="date" value={usgDate} onChange={e => setUsgDate(e.target.value)} max="2026-05-06" />
+              <window.DatePicker value={usgDate} onChange={setUsgDate} max="2026-05-06" />
             </div>
           </div>
           <div className="field-row">
@@ -98,7 +94,7 @@ function Calculator({ result, setResult }) {
         <div className="field-row single">
           <div className="field">
             <label>Data provável do parto</label>
-            <input className="input" type="date" value={dpp} onChange={e => setDpp(e.target.value)} />
+            <window.DatePicker value={dpp} onChange={setDpp} />
           </div>
         </div>
       )}
@@ -107,19 +103,13 @@ function Calculator({ result, setResult }) {
         <FertilDates dates={periodDates} setDates={setPeriodDates} />
       )}
 
-      <div className="btn-row" style={{marginTop: 16, justifyContent: 'space-between'}}>
-        <button className="btn ghost">
-          <I.calendar /> Salvar no histórico
-        </button>
-        <button className="btn primary" onClick={calculate}>
-          Recalcular <I.arrow />
-        </button>
+      <div className="btn-row" style={{marginTop: 18}}>
+        <button className="btn ghost"><I.calendar /> Salvar no histórico</button>
+        <button className="btn primary" onClick={calculate}>Recalcular <I.arrow /></button>
       </div>
     </div>
   );
 }
-
-window.Calculator = Calculator;
 
 function FertilDates({ dates, setDates }) {
   const validDates = dates.filter(Boolean).map(d => new Date(d)).sort((a,b) => a - b);
@@ -130,20 +120,13 @@ function FertilDates({ dates, setDates }) {
   const validGaps = gaps.filter(g => g >= 18 && g <= 50);
   const avg = validGaps.length ? Math.round(validGaps.reduce((a,b) => a+b, 0) / validGaps.length) : null;
 
-  const update = (idx, val) => {
-    const next = [...dates]; next[idx] = val; setDates(next);
-  };
+  const update = (idx, val) => { const next = [...dates]; next[idx] = val; setDates(next); };
   const add = () => setDates([...dates, '']);
-  const remove = (idx) => {
-    if (dates.length <= 2) return;
-    setDates(dates.filter((_, i) => i !== idx));
-  };
+  const remove = (idx) => { if (dates.length <= 2) return; setDates(dates.filter((_, i) => i !== idx)); };
 
   return (
     <>
-      <div className="field">
-        <label style={{marginBottom: 8}}>Datas de início das suas menstruações (mínimo 2)</label>
-      </div>
+      <div className="field"><label style={{marginBottom: 8}}>Datas das suas menstruações (mín. 2)</label></div>
       <div className="date-list">
         {dates.map((d, i) => {
           const dt = d ? new Date(d) : null;
@@ -152,11 +135,9 @@ function FertilDates({ dates, setDates }) {
           return (
             <div key={i} className="date-item">
               <span className="idx">{i + 1}</span>
-              <input type="date" value={d || ''} onChange={e => update(i, e.target.value)} max="2026-05-06" />
-              <span className="gap-tag">
-                {gap === null ? '—' : `${gap} dias do anterior`}
-              </span>
-              <button className="remove" onClick={() => remove(i)} disabled={dates.length <= 2} title="Remover">
+              <window.DatePicker value={d} onChange={(v) => update(i, v)} max="2026-05-06" placeholder="Selecionar data" />
+              <span className="gap-tag">{gap === null ? '— início' : `${gap} dias`}</span>
+              <button className="remove" onClick={() => remove(i)} disabled={dates.length <= 2}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
               </button>
             </div>
@@ -170,25 +151,15 @@ function FertilDates({ dates, setDates }) {
 
       {avg && (
         <div className="cycle-summary">
-          <div className="col">
-            <div className="lbl">Registros</div>
-            <div className="val">{validDates.length}</div>
-          </div>
-          <div className="col">
-            <div className="lbl">Ciclo médio</div>
-            <div className="val">{avg} d</div>
-          </div>
-          <div className="col">
-            <div className="lbl">Variação</div>
-            <div className="val">{validGaps.length > 1 ? `±${Math.round((Math.max(...validGaps) - Math.min(...validGaps))/2)} d` : '—'}</div>
-          </div>
+          <div className="col"><div className="lbl">Registros</div><div className="val">{validDates.length}</div></div>
+          <div className="col"><div className="lbl">Ciclo médio</div><div className="val">{avg} d</div></div>
+          <div className="col"><div className="lbl">Variação</div><div className="val">{validGaps.length > 1 ? `±${Math.round((Math.max(...validGaps) - Math.min(...validGaps))/2)} d` : '—'}</div></div>
         </div>
       )}
-
-      <p className="tab-tip" style={{marginTop: 6}}>
-        Quanto mais ciclos você registrar, mais precisa fica a previsão. Adicione novas datas a cada nova menstruação que acontecer. ✨
-      </p>
+      <p className="tab-tip" style={{marginTop: 6}}>Quanto mais ciclos você registrar, mais precisa fica a previsão. ✨</p>
     </>
   );
 }
+
+window.Calculator = Calculator;
 window.FertilDates = FertilDates;
