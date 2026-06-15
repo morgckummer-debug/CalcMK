@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Calc Clínica">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#D4AF53">
+<link rel="apple-touch-icon" href="data:image/webp;base64,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">
+<title>Calc Clínica — Dra. Morgana Kummer</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --text:#46342a;--text2:#8a7563;--text3:#b7a594;
+  --clay:#bb6e45;--clay2:#a25a34;
+  --grad:linear-gradient(135deg,#cd8a5d,#b06038);
+  --purple:#6B3191;--purple1:#6B3191;--purplet:rgba(107,49,145,.14);
+  --glass:rgba(255,251,245,0.62);--glassb:rgba(255,255,255,0.55);
+  --line:rgba(162,90,52,0.16);
+  --serif:'Marcellus',Georgia,serif;--sans:'Mulish',-apple-system,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:relative;
+  overflow-x:hidden;max-width:100vw;background:#f4ebdd;min-height:100vh}
+.wash{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.wash::before{content:"";position:absolute;inset:-10%;
+  background:
+    radial-gradient(40% 32% at 18% 14%,rgba(212,160,120,.55),transparent 70%),
+    radial-gradient(38% 30% at 86% 22%,rgba(200,150,140,.42),transparent 70%),
+    radial-gradient(45% 38% at 78% 88%,rgba(208,170,128,.5),transparent 72%),
+    radial-gradient(40% 34% at 10% 84%,rgba(196,176,150,.45),transparent 70%);
+  filter:blur(8px)}
+.fig{position:fixed;left:-40px;bottom:-20px;width:min(42vw,420px);height:min(78vh,700px);z-index:0;
+  background:url('data:image/webp;base64,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') no-repeat left bottom/contain;opacity:.2;
+  pointer-events:none;mix-blend-mode:multiply;
+  -webkit-mask-image:radial-gradient(135% 118% at 4% 100%,#000 46%,transparent 80%);
+  mask-image:radial-gradient(135% 118% at 4% 100%,#000 46%,transparent 80%)}
+.inner{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.header{text-align:center;margin-bottom:28px}
+.logo-img{max-width:240px;width:64%;display:block;margin:0 auto 6px;height:auto}
+.mono{width:58px;height:58px;border-radius:50%;background:var(--glass);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);border:1px solid var(--glassb);margin:0 auto 13px;
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:24px;
+  color:var(--clay2);box-shadow:0 10px 26px -14px rgba(80,50,30,.5)}
+.bn{font-family:var(--serif);font-size:30px;color:var(--text);line-height:1.05;letter-spacing:.3px}
+.bs{font-size:10px;color:var(--clay);letter-spacing:3.5px;text-transform:uppercase;margin-top:8px}
+.tabs-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:600px;margin-inline:auto}
+.tabs{display:flex;gap:4px;padding:5px;border-radius:50px;
+  background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--glassb);box-shadow:0 12px 30px -18px rgba(80,50,30,.5)}
+.tab{flex:1;padding:11px 4px;border:none;background:transparent;color:var(--text2);font-size:11.5px;
+  border-radius:40px;cursor:pointer;font-family:var(--sans);font-weight:700;white-space:nowrap;transition:.2s;line-height:1.3;text-align:center}
+.tab.on{background:var(--purple);color:#fff;box-shadow:0 8px 18px -8px rgba(107,49,145,.55)}
+.nm{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--glassb);border-radius:20px;padding:18px;margin-bottom:14px;
+  box-shadow:0 22px 50px -28px rgba(80,50,30,.55)}
+.sec-title{font-family:var(--serif);font-size:19px;color:var(--text);margin-bottom:16px;letter-spacing:.3px}
+.toprow{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px}
+.mini-label{font-size:10px;color:var(--text2);margin-bottom:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.radio-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.radio-opt{display:flex;align-items:center;gap:11px;cursor:pointer;font-size:14px;color:var(--text2);font-weight:600}
+.radio-opt input{display:none}
+.radio-dot{width:19px;height:19px;border-radius:50%;background:rgba(255,255,255,.5);
+  border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s}
+.radio-dot::after{content:'';width:9px;height:9px;border-radius:50%;background:transparent;transition:.2s}
+.radio-opt.sel{color:var(--text)}
+.radio-opt.sel .radio-dot{border-color:transparent;background:var(--purple)}
+.radio-opt.sel .radio-dot::after{background:#fff}
+.frow{display:flex;flex-direction:column;margin-top:16px;gap:7px}
+.frow label{font-size:13px;color:var(--text);font-weight:600}
+.field{width:100%;padding:12px 16px;border-radius:14px;border:1px solid var(--glassb);
+  background:rgba(255,255,255,.5);color:var(--text);font-size:14px;font-family:var(--sans);font-weight:600;
+  outline:none;transition:.2s;box-sizing:border-box}
+.field:focus{border-color:var(--clay);background:rgba(255,255,255,.75)}
+.field::placeholder{color:var(--text3);font-weight:500}
+.dual{display:flex;flex-direction:column;gap:10px;width:100%}
+.dual .field{width:100%}
+@media(min-width:600px){.dual{flex-direction:row}.dual .field{flex:1;width:auto}}
+.btn-clear{padding:9px 18px;border:1px solid rgba(107,49,145,.28);border-radius:50px;background:rgba(255,255,255,.4);
+  color:var(--purple1);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans);
+  letter-spacing:1px;text-transform:uppercase;transition:.15s}
+.btn-clear:hover{background:rgba(107,49,145,.1)}
+.res-grid{display:grid;grid-template-columns:1fr;gap:16px;width:100%;margin-top:16px}
+@media(min-width:600px){.res-grid{grid-template-columns:1fr 1fr;width:calc(100% + 160px);margin-left:-80px}}
+.res-list{display:flex;flex-direction:column;gap:2px}
+.res-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.res-line .k{font-size:12px;color:var(--text2);font-weight:600}
+.res-line .v{font-size:15px;font-weight:700;color:var(--text)}
+.ig-feature{margin-top:16px;padding:18px;border-radius:18px;background:linear-gradient(135deg,#8B3FBD,#5a2080);
+  box-shadow:0 14px 30px -14px rgba(107,49,145,.5);text-align:center}
+.ig-feature .k{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:700;margin-bottom:8px}
+.ig-val{display:flex;align-items:baseline;justify-content:center;gap:5px}
+.ig-n{font-family:var(--serif);font-size:42px;color:#fff;line-height:1}
+.ig-u{font-size:13px;font-weight:700;color:rgba(255,255,255,.8);margin-right:6px}
+.ex-table{width:100%;border-collapse:separate;border-spacing:0 7px}
+.ex-table th{font-size:10px;color:var(--text2);text-align:left;padding:0 12px 2px;letter-spacing:1px;
+  text-transform:uppercase;font-weight:700}
+.ex-table th:nth-child(2),.ex-table th:nth-child(3),
+.ex-row td:nth-child(2),.ex-row td:nth-child(3){text-align:center}
+.ex-row td{padding:11px 12px;font-size:12.5px;color:var(--text);font-weight:600}
+.ex-row{background:rgba(255,255,255,.45);border:1px solid var(--glassb);border-radius:13px}
+.ex-row td:first-child{border-radius:13px 0 0 13px;border-left:1px solid var(--glassb)}
+.ex-row td:last-child{border-radius:0 13px 13px 0}
+.ex-row.now{background:var(--purple);border-color:transparent}
+.ex-row.now td{color:#fff}
+.ex-row.past{opacity:.4}
+.bdg{display:inline-block;font-size:8px;font-weight:800;padding:3px 7px;border-radius:20px;margin-left:7px;
+  background:rgba(255,255,255,.35);color:#fff;vertical-align:middle;letter-spacing:.8px;text-transform:uppercase}
+.bdg.p{background:rgba(162,90,52,.1);color:var(--text2)}
+.imc-box{text-align:center;padding:22px;border-radius:20px;margin-bottom:16px;background:linear-gradient(135deg,#8B3FBD,#5a2080);
+  box-shadow:0 16px 34px -16px rgba(107,49,145,.5)}
+.iv{font-family:var(--serif);font-size:54px;color:#fff;line-height:1}
+.il{font-size:13px;color:rgba(255,255,255,.92);font-weight:700;margin-top:4px;letter-spacing:.5px}
+.empty{text-align:center;padding:34px 24px;color:var(--text3)}
+.empty .ec{width:46px;height:46px;border-radius:50%;border:1px dashed var(--line);margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;color:var(--text3)}
+.empty p{font-size:13px;font-weight:600;color:var(--text2);line-height:1.5;max-width:300px;margin:0 auto}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wash"></div>
+<div class="fig"></div>
+<div class="inner">
+
+  <div class="header">
+    <img class="logo-img" src="https://dramorgana.com.br/wp-content/uploads/2025/10/lgo-horiz.png"
+         alt="Clínica de Ultrassom Dra. Morgana Kummer"
+         onerror="this.style.display='none';document.getElementById('lf').style.display='block'">
+    <div id="lf" style="display:none">
+      <div class="mono">MK</div>
+      <div class="bn">Dra. Morgana Kummer</div>
+      <div class="bs">Clínica de Ultrassom</div>
+    </div>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('ig',this)">Idade Gestacional</button>
+      <button class="tab" onclick="showTab('imc',this)">IMC</button>
+      <button class="tab" onclick="showTab('mac',this)">MAC</button>
+    </div>
+    <div class="tabs">
+      <button class="tab" onclick="showTab('hdc',this)">Hérnia Diafragmática</button>
+      <button class="tab" onclick="showTab('mca',this)">Anemia Fetal</button>
+    </div>
+  </div>
+
+  <!-- IG -->
+  <div id="tab-ig">
+    <div class="nm">
+      <div class="toprow">
+        <div>
+          <div class="mini-label">Calcular pela</div>
+          <div class="radio-group" id="method-group">
+            <label class="radio-opt sel" onclick="setM('dum',this)"><div class="radio-dot"></div> Última menstruação</label>
+            <label class="radio-opt" onclick="setM('dpp',this)"><div class="radio-dot"></div> Data prevista do parto</label>
+            <label class="radio-opt" onclick="setM('exame',this)"><div class="radio-dot"></div> Exame anterior</label>
+            <label class="radio-opt" onclick="setM('fiv',this)"><div class="radio-dot"></div> FIV (transferência)</label>
+          </div>
+        </div>
+        <button class="btn-clear" onclick="limpar()">Limpar</button>
+      </div>
+      <div id="c-dum" class="frow">
+        <label>Última menstruação</label>
+        <input type="text" id="dum" class="field" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" oninput="mask(this);calc()">
+      </div>
+      <div id="c-dpp" class="frow hidden">
+        <label>Data prevista do parto</label>
+        <input type="text" id="dpp" class="field" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" oninput="mask(this);calc()">
+      </div>
+      <div id="c-exame" class="hidden">
+        <div class="frow">
+          <label>Data do exame</label>
+          <input type="text" id="ex" class="field" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" oninput="mask(this);calc();if(this.value.length===10)document.getElementById('esem').focus()">
+        </div>
+        <div class="frow">
+          <label>IG no exame</label>
+          <div class="dual">
+            <input type="number" id="esem" class="field" min="4" max="42" placeholder="Sem." oninput="calc();if(this.value.length>=2)document.getElementById('edias').focus()">
+            <input type="number" id="edias" class="field" min="0" max="6" placeholder="Dias" oninput="calc()">
+          </div>
+        </div>
+      </div>
+      <div id="c-fiv" class="hidden">
+        <div class="frow">
+          <label>Data da transferência embrionária</label>
+          <input type="text" id="fiv-data" class="field" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" oninput="mask(this);calc()">
+        </div>
+        <div class="frow">
+          <div class="mini-label" style="margin-bottom:4px">Tipo de embrião</div>
+          <div style="display:flex;gap:10px">
+            <label class="radio-opt sel" id="fiv-d3-lbl" onclick="setFiv('d3',this)" style="flex:1;padding:11px 14px;background:rgba(255,255,255,.45);border:1px solid var(--glassb);border-radius:14px;margin:0"><div class="radio-dot"></div> D3</label>
+            <label class="radio-opt" id="fiv-d5-lbl" onclick="setFiv('d5',this)" style="flex:1;padding:11px 14px;background:rgba(255,255,255,.45);border:1px solid var(--glassb);border-radius:14px;margin:0"><div class="radio-dot"></div> D5 (blastocisto)</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p>Informe uma data acima para calcular a idade gestacional, a data provável do parto e os períodos de exame.</p>
+      </div>
+    </div>
+
+    <div id="res" class="res-grid hidden">
+      <div class="nm">
+        <div class="sec-title">Datas calculadas</div>
+        <div class="res-list">
+          <div class="res-line"><span class="k" id="r-dum-lbl">Última menstruação</span><span class="v" id="r-dum"></span></div>
+          <div class="res-line" id="r-conc-row"><span class="k">Concepção provável</span><span class="v" id="r-conc"></span></div>
+          <div class="res-line"><span class="k">Data provável do parto</span><span class="v" id="r-dpp"></span></div>
+        </div>
+        <div class="ig-feature">
+          <div class="k">Idade gestacional</div>
+          <span class="ig-val" id="r-ig"></span>
+        </div>
+      </div>
+      <div class="nm">
+        <div class="sec-title">Períodos para exames</div>
+        <table class="ex-table">
+          <thead><tr><th>Exame</th><th>De</th><th>Até</th></tr></thead>
+          <tbody id="exlist"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMC -->
+  <div id="tab-imc" class="hidden">
+    <div class="nm">
+      <div class="sec-title">Dados da paciente</div>
+      <div class="frow"><label>Peso (kg)</label><input type="number" id="peso" class="field" placeholder="68,5" step="0.1" oninput="calcI()"></div>
+      <div class="frow"><label>Altura (cm)</label><input type="number" id="alt" class="field" placeholder="163" oninput="calcI()"></div>
+    </div>
+    <div id="iempty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p>Informe peso e altura para calcular o IMC e a classificação segundo a OMS.</p>
+      </div>
+    </div>
+    <div class="nm hidden" id="ires">
+      <div class="imc-box"><div class="iv" id="iv"></div><div class="il" id="il"></div></div>
+    </div>
+  </div>
+
+  <!-- MAC (CPAM / CVR) -->
+  <div id="tab-mac" class="hidden">
+    <div class="nm">
+      <div class="toprow">
+        <div class="sec-title" style="margin-bottom:0">Medidas da lesão</div>
+        <button class="btn-clear" onclick="limparMAC()">Limpar</button>
+      </div>
+      <div class="frow">
+        <label>Dimensões da lesão (cm)</label>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="mac-c" class="field" placeholder="Comp." step="0.1" oninput="calcMAC()" style="flex:1;min-width:0">
+          <input type="number" id="mac-l" class="field" placeholder="Larg." step="0.1" oninput="calcMAC()" style="flex:1;min-width:0">
+          <input type="number" id="mac-a" class="field" placeholder="Alt." step="0.1" oninput="calcMAC()" style="flex:1;min-width:0">
+        </div>
+      </div>
+      <div class="frow"><label>Circunferência cefálica (cm)</label><input type="number" id="mac-cc" class="field" placeholder="ex: 22.0" step="0.1" oninput="calcMAC()"></div>
+    </div>
+    <div id="mac-empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p>Informe as três dimensões da lesão e a CC para calcular o CVR.</p>
+      </div>
+    </div>
+    <div id="mac-res" class="hidden">
+      <div class="nm">
+        <div class="res-list">
+          <div class="res-line"><span class="k">Volume da lesão</span><span class="v" id="mac-vol"></span></div>
+          <div class="res-line"><span class="k">Circunferência cefálica</span><span class="v" id="mac-cc-r"></span></div>
+        </div>
+        <div class="ig-feature" id="mac-box">
+          <div class="k">CVR</div>
+          <div class="ig-val"><span class="ig-n" id="mac-cvr-val"></span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="mac-interp"></div>
+        </div>
+      </div>
+      <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Referência — Crombleholme et al.</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(70,52,42,.08);border-radius:12px;padding:10px 12px">
+            <span style="background:var(--text);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">CVR &lt; 1,2</span>
+            <span style="color:var(--text);font-weight:700;font-size:12.5px">Seguimento semanal</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(187,110,69,.12);border-radius:12px;padding:10px 12px">
+            <span style="background:var(--clay);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">CVR 1,2 – 1,6</span>
+            <span style="color:var(--clay2);font-weight:700;font-size:12.5px">Seguimento 2×/semana</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">CVR &gt; 1,6</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Alto risco de hidropsia — 2-3×/semana</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Cisto dominante &gt;⅓</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Alto risco independente do CVR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hérnia Diafragmática (LHR / o/e LHR) -->
+  <div id="tab-hdc" class="hidden">
+    <div class="nm">
+      <div class="toprow">
+        <div>
+          <div class="mini-label">Lado da hérnia</div>
+          <div class="radio-group" id="hdc-lado-group" style="grid-template-columns:1fr 1fr;max-width:260px">
+            <label class="radio-opt sel" id="hdc-esq-lbl" onclick="setHdcLado('esq',this)"><div class="radio-dot"></div> Esquerda</label>
+            <label class="radio-opt" id="hdc-dir-lbl" onclick="setHdcLado('dir',this)"><div class="radio-dot"></div> Direita</label>
+          </div>
+        </div>
+        <button class="btn-clear" onclick="limparHDC()">Limpar</button>
+      </div>
+      <div class="frow"><label id="hdc-pulmao-label">Área do pulmão direito — tracing (mm²)</label><input type="number" id="hdc-area" class="field" placeholder="ex: 380" step="1" oninput="calcHDC()"></div>
+      <div class="frow"><label>Circunferência cefálica (mm)</label><input type="number" id="hdc-cc" class="field" placeholder="ex: 195" step="1" oninput="calcHDC()"></div>
+      <div class="frow"><label>Idade gestacional</label>
+        <div class="dual">
+          <input type="number" id="hdc-sem" class="field" min="16" max="36" placeholder="Sem." oninput="calcHDC();if(this.value.length>=2)document.getElementById('hdc-dias').focus()">
+          <input type="number" id="hdc-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcHDC()">
+        </div>
+      </div>
+    </div>
+    <div id="hdc-empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p>Informe a área pulmonar (tracing), a CC e a IG para calcular o LHR e o o/e LHR.</p>
+      </div>
+    </div>
+    <div id="hdc-res" class="hidden">
+      <div class="nm">
+        <div class="res-list">
+          <div class="res-line"><span class="k">Área pulmonar (tracing)</span><span class="v" id="hdc-area-r"></span></div>
+          <div class="res-line"><span class="k">LHR observado</span><span class="v" id="hdc-lhr-obs"></span></div>
+          <div class="res-line"><span class="k">LHR esperado (Jani)</span><span class="v" id="hdc-lhr-esp"></span></div>
+        </div>
+        <div class="ig-feature" id="hdc-box">
+          <div class="k">o/e LHR</div>
+          <div class="ig-val"><span class="ig-n" id="hdc-oe-val"></span><span class="ig-u">%</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="hdc-interp"></div>
+        </div>
+      </div>
+      <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Referência — Jani et al. (Antenatal-CDH-Registry)</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR &lt; 25%</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Sobrevida extremamente baixa</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR 25–35%</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Prognóstico muito grave</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(187,110,69,.12);border-radius:12px;padding:10px 12px">
+            <span style="background:var(--clay);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR 35–45%</span>
+            <span style="color:var(--clay2);font-weight:700;font-size:12.5px">Prognóstico grave</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(107,49,145,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:var(--purple);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR 45–65%</span>
+            <span style="color:var(--purple);font-weight:700;font-size:12.5px">Prognóstico moderado</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR &gt; 65%</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Prognóstico relativamente favorável</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">Fórmula: método tracing. GA em semanas.</div>
+      </div>
+    </div>
+  </div>
+  <!-- Anemia Fetal (MCA-PSV) -->
+  <div id="tab-mca" class="hidden">
+    <div class="nm">
+      <div class="toprow">
+        <div class="sec-title" style="margin-bottom:0">ACM — Pico de Velocidade Sistólica</div>
+        <button class="btn-clear" onclick="limparMCA()">Limpar</button>
+      </div>
+      <div class="frow"><label>Idade gestacional</label>
+        <div class="dual">
+          <input type="number" id="mca-sem" class="field" min="16" max="40" placeholder="Sem." oninput="calcMCA();if(this.value.length>=2)document.getElementById('mca-dias').focus()">
+          <input type="number" id="mca-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcMCA()">
+        </div>
+      </div>
+      <div class="frow"><label>ACM-PVS observada (cm/s)</label><input type="number" id="mca-psv" class="field" placeholder="ex: 55.0" step="0.1" oninput="calcMCA()"></div>
+    </div>
+    <div id="mca-empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p>Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.</p>
+      </div>
+    </div>
+    <div id="mca-res" class="hidden">
+      <div class="nm">
+        <div class="res-list">
+          <div class="res-line"><span class="k">ACM-PVS observada</span><span class="v" id="mca-psv-r"></span></div>
+          <div class="res-line"><span class="k">Mediana esperada para a IG</span><span class="v" id="mca-med"></span></div>
+          <div class="res-line"><span class="k">Hb fetal estimada</span><span class="v" id="mca-hb"></span></div>
+          <div class="res-line"><span class="k">Classificação da anemia</span><span class="v" id="mca-classif"></span></div>
+        </div>
+        <div class="ig-feature" id="mca-box">
+          <div class="k">MoM</div>
+          <div class="ig-val"><span class="ig-n" id="mca-mom-val"></span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="mca-interp"></div>
+        </div>
+      </div>
+      <div id="mca-aviso-35" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        ⚠️ <strong>Atenção — após 35 semanas</strong> a especificidade do ACM-PVS é reduzida e falsos positivos são mais frequentes. Interprete em conjunto com o contexto clínico e considere Doppler confirmatório.
+      </div>
+      <div id="mca-conduta" class="hidden nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;color:var(--text3)">Conduta — FMF Barcelona / Fetalmed</div>
+        <div id="mca-conduta-texto" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Interpretação — FMF Barcelona / Fetalmed</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">MoM &lt; 1,0</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Normal — sem evidência de anemia</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(180,106,26,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#b46a1a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,0 – 1,29 MoM</span>
+            <span style="color:#b46a1a;font-weight:700;font-size:12.5px">Zona de vigilância — repetir em 1–2 semanas</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,96,16,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,29 – 1,50 MoM</span>
+            <span style="color:#9b6010;font-weight:700;font-size:12.5px">Suspeita de anemia leve — acompanhamento seriado</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">≥ 1,50 MoM</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Suspeita de anemia moderada/grave — considerar cordocentese e possível transfusão intrauterina</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 × IG) — Mari 2000. Hb mediana por tabela — Mari 2000. Hb estimada pela função cúbica — Mari 2005 (Ultrasound Obstet Gynecol). Estimativa indireta; Hb real confirmada por cordocentese.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+let curM='dum';
+let curFiv='d3';
+function setFiv(tipo,el){
+  curFiv=tipo;
+  document.getElementById('fiv-d3-lbl').classList.remove('sel');
+  document.getElementById('fiv-d5-lbl').classList.remove('sel');
+  el.classList.add('sel');
+  calc();
+}
+function showTab(t,btn){
+  ['ig','imc','mac','hdc','mca'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('hidden',t!==id));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ── MCA-PSV / Anemia Fetal ── */
+function calcMCA(){
+  const sem=+document.getElementById('mca-sem').value||0,
+        dias=+document.getElementById('mca-dias').value||0,
+        psv=+document.getElementById('mca-psv').value;
+  const res=document.getElementById('mca-res'),emp=document.getElementById('mca-empty');
+  if(!sem||!psv){res.classList.add('hidden');emp.classList.remove('hidden');return;}
+  const GA=sem+(dias/7);
+  const mediana=Math.exp(2.31+(0.04643*GA));
+  const mom=psv/mediana;
+  // Hb mediana fetal por IG — Mari 2000 (Tabela 1, semanas inteiras; ímpares interpoladas)
+  const HB_TABLE={16:10.0,17:10.4,18:10.6,19:10.9,20:11.1,21:11.4,22:11.6,23:11.8,
+    24:12.0,25:12.1,26:12.3,27:12.4,28:12.6,29:12.7,30:12.8,31:12.9,
+    32:13.1,33:13.2,34:13.3,35:13.4,36:13.5,37:13.5,38:13.6,39:13.6,40:13.7};
+  const semInt=Math.floor(GA), frac=GA-semInt;
+  const hbLow=HB_TABLE[semInt]||10.0, hbHigh=HB_TABLE[Math.min(semInt+1,40)]||hbLow;
+  const hbMediana=hbLow+(hbHigh-hbLow)*frac;
+  // Hb MoM estimada — fórmula cúbica de Mari 2005 (Ultrasound Obstet Gynecol)
+  // Hb MoM = 0.6835 + 1.2794×PSV_MoM − 1.2885×PSV_MoM² + 0.2861×PSV_MoM³
+  const hbMoM = 0.6835 + (1.2794*mom) - (1.2885*mom*mom) + (0.2861*mom*mom*mom);
+  const hbEst = Math.max(hbMoM * hbMediana, 0);
+
+  // Classificação por MoM (FMF Barcelona / Fetalmed)
+  // < 1,0    → Normal
+  // 1,0–1,29 → Zona de vigilância
+  // 1,29–1,50→ Suspeita de anemia leve
+  // ≥ 1,50   → Suspeita de anemia moderada/grave
+  let classif='', classifColor='', interp='', bg='', condutas=[];
+  if(mom<1.0){
+    classif='Normal';
+    classifColor='#386641';
+    interp='Normal — sem evidência de anemia';
+    bg='linear-gradient(135deg,#8B3FBD,#5a2080)';
+    condutas=[
+      {txt:'Sem evidência de anemia fetal.', cor:'#386641'},
+      {txt:'Manter seguimento habitual conforme indicação clínica (isoimunização, STFF, parvovírus B19).', cor:'var(--text2)'}
+    ];
+  } else if(mom<1.29){
+    classif='Zona de vigilância';
+    classifColor='#b46a1a';
+    interp='Zona de vigilância (MoM 1,0–1,29)';
+    bg='linear-gradient(135deg,#b46a1a,#7a4510)';
+    condutas=[
+      {txt:'Repetir ACM-PVS em 1–2 semanas.', cor:'var(--text2)'},
+      {txt:'Avaliar etiologia: pesquisar anticorpos, parvovírus B19, STFF.', cor:'var(--text2)'},
+      {txt:'Sem indicação de procedimento invasivo neste momento — monitorizar tendência temporal.', cor:'var(--clay)'}
+    ];
+  } else if(mom<1.50){
+    classif='Suspeita de anemia leve';
+    classifColor='#9b6010';
+    interp='Suspeita de anemia leve (MoM 1,29–1,50)';
+    bg='linear-gradient(135deg,#9b6010,#6b3e08)';
+    condutas=[
+      {txt:'Acompanhamento seriado — repetir ACM-PVS em 24–48h ou no máximo em 1 semana.', cor:'var(--clay)'},
+      {txt:'Avaliar contexto clínico: hidrops, STFF, isoimunização Rh com títulos em ascensão.', cor:'var(--text2)'},
+      {txt:'Considerar cordocentese diagnóstica se tendência ascendente do MoM ou contexto de alto risco (FMF Barcelona).', cor:'var(--clay)'}
+    ];
+  } else {
+    classif='Suspeita de anemia moderada/grave';
+    classifColor='#9b2226';
+    interp='Suspeita de anemia moderada/grave (MoM ≥ 1,50)';
+    bg='linear-gradient(135deg,#9b2226,#6b1518)';
+    condutas=[
+      {txt:'⚠️ Considerar cordocentese diagnóstica e possível transfusão intrauterina (TIU) — referenciar a centro de medicina fetal.', cor:'#9b2226'},
+      {txt:'Cordocentese + TIU se Hb fetal confirmada < 7 g/dL (Fetalmed) ou < 2 DP abaixo da média para a IG (FMF Barcelona). Meta: elevar Hb para 10–14 g/dL.', cor:'#9b2226'},
+      {txt:'Preparar banco de sangue: hemácias O negativo irradiadas e lavadas, hematócrito 75–85%.', cor:'var(--clay)'},
+      {txt:'Avaliar maturidade pulmonar e via de parto se IG ≥ 34 semanas — pode ser preferível ao procedimento invasivo.', cor:'var(--text2)'},
+      {txt:'Corticoterapia se IG 24–34 semanas e procedimento de urgência planejado.', cor:'var(--text2)'}
+    ];
+  }
+
+  document.getElementById('mca-psv-r').textContent=psv.toFixed(1)+' cm/s';
+  document.getElementById('mca-med').textContent=mediana.toFixed(1)+' cm/s (mediana Hb: '+hbMediana.toFixed(1)+' g/dL)';
+  document.getElementById('mca-hb').innerHTML='<span style="color:'+classifColor+';font-weight:700">'+hbEst.toFixed(1)+' g/dL</span>';
+  document.getElementById('mca-classif').innerHTML='<span style="color:'+classifColor+';font-weight:700">'+classif+'</span>';
+  document.getElementById('mca-mom-val').textContent=mom.toFixed(2);
+  document.getElementById('mca-interp').textContent=interp;
+  document.getElementById('mca-box').style.background=bg;
+
+  // Conduta
+  const condDiv=document.getElementById('mca-conduta-texto');
+  condDiv.innerHTML=condutas.map(c=>'<div style="padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.45);border:1px solid var(--glassb);color:'+c.cor+';font-weight:600">'+c.txt+'</div>').join('');
+  document.getElementById('mca-conduta').classList.remove('hidden');
+
+  document.getElementById('mca-aviso-35').classList.toggle('hidden', GA<35);
+  res.classList.remove('hidden');emp.classList.add('hidden');
+}
+function limparMCA(){
+  ['mca-sem','mca-dias','mca-psv'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mca-res').classList.add('hidden');
+  document.getElementById('mca-conduta').classList.add('hidden');
+  document.getElementById('mca-empty').classList.remove('hidden');
+}
+
+/* ── MAC / CVR ── */
+function calcMAC(){
+  const c=+document.getElementById('mac-c').value,
+        l=+document.getElementById('mac-l').value,
+        a=+document.getElementById('mac-a').value,
+        cc=+document.getElementById('mac-cc').value;
+  const res=document.getElementById('mac-res'),emp=document.getElementById('mac-empty');
+  if(!c||!l||!a||!cc){res.classList.add('hidden');emp.classList.remove('hidden');return;}
+  const vol=c*l*a*0.52;
+  const cvr=vol/cc;
+  document.getElementById('mac-vol').textContent=vol.toFixed(2)+' cm³';
+  document.getElementById('mac-cc-r').textContent=cc.toFixed(1)+' cm';
+  document.getElementById('mac-cvr-val').textContent=cvr.toFixed(2);
+  let interp='';
+  if(cvr<1.2){interp='Baixo risco — seguimento semanal';}
+  else if(cvr<=1.6){interp='Risco intermediário — seguimento 2×/semana';}
+  else{interp='Alto risco de hidropsia — seguimento 2-3×/semana';}
+  document.getElementById('mac-interp').textContent=interp;
+  document.getElementById('mac-box').style.background='';
+  res.classList.remove('hidden');emp.classList.add('hidden');
+}
+function limparMAC(){
+  ['mac-c','mac-l','mac-a','mac-cc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mac-res').classList.add('hidden');
+  document.getElementById('mac-empty').classList.remove('hidden');
+}
+
+/* ── HDC / LHR ── */
+let curHdcLado='esq';
+function setHdcLado(lado,el){
+  curHdcLado=lado;
+  document.getElementById('hdc-esq-lbl').classList.toggle('sel',lado==='esq');
+  document.getElementById('hdc-dir-lbl').classList.toggle('sel',lado==='dir');
+  document.getElementById('hdc-pulmao-label').textContent=
+    lado==='esq'?'Área do pulmão direito — tracing (mm²)':'Área do pulmão esquerdo — tracing (mm²)';
+  calcHDC();
+}
+function calcHDC(){
+  const area=+document.getElementById('hdc-area').value,
+        cc=+document.getElementById('hdc-cc').value,
+        sem=+document.getElementById('hdc-sem').value||0,
+        dias=+document.getElementById('hdc-dias').value||0;
+  const res=document.getElementById('hdc-res'),emp=document.getElementById('hdc-empty');
+  if(!area||!cc||!sem){res.classList.add('hidden');emp.classList.remove('hidden');return;}
+  const GA=sem+(dias/7);
+  // LHR observado: área em mm², CC em mm → LHR = área/CC
+  const lhrObs=area/cc;
+  // LHR esperado (Jani, tracing method)
+  // HDC esquerda → pulmão direito: -2.3271 + 0.27*GA - 0.0032*GA²
+  // HDC direita  → pulmão esquerdo: -1.4994 + 0.1778*GA - 0.0021*GA²
+  let lhrEsp;
+  if(curHdcLado==='esq'){
+    lhrEsp=-2.3271+(0.27*GA)-(0.0032*GA*GA);
+  }else{
+    lhrEsp=-1.4994+(0.1778*GA)-(0.0021*GA*GA);
+  }
+  if(lhrEsp<=0){res.classList.add('hidden');emp.classList.remove('hidden');return;}
+  const oe=(lhrObs/lhrEsp)*100;
+  document.getElementById('hdc-area-r').textContent=area+' mm²';
+  document.getElementById('hdc-lhr-obs').textContent=lhrObs.toFixed(3);
+  document.getElementById('hdc-lhr-esp').textContent=lhrEsp.toFixed(3);
+  document.getElementById('hdc-oe-val').textContent=oe.toFixed(1);
+  let interp='',bg='';
+  if(oe<25){interp='Sobrevida extremamente baixa';bg='linear-gradient(135deg,#9b2226,#6b1518)';}
+  else if(oe<35){interp='Prognóstico muito grave';bg='linear-gradient(135deg,#9b2226,#6b1518)';}
+  else if(oe<45){interp='Prognóstico grave';bg='linear-gradient(135deg,#b46a1a,#7a4510)';}
+  else if(oe<65){interp='Prognóstico moderado';bg='linear-gradient(135deg,#8B3FBD,#5a2080)';}
+  else{interp='Prognóstico relativamente favorável';bg='linear-gradient(135deg,#386641,#2d5236)';}
+  document.getElementById('hdc-interp').textContent=interp;
+  document.getElementById('hdc-box').style.background=bg;
+  res.classList.remove('hidden');emp.classList.add('hidden');
+}
+function limparHDC(){
+  ['hdc-area','hdc-cc','hdc-sem','hdc-dias'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('hdc-res').classList.add('hidden');
+  document.getElementById('hdc-empty').classList.remove('hidden');
+}
+function setM(m,el){
+  curM=m;
+  document.querySelectorAll('#method-group .radio-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('c-dum').classList.toggle('hidden',m!=='dum');
+  document.getElementById('c-dpp').classList.toggle('hidden',m!=='dpp');
+  document.getElementById('c-exame').classList.toggle('hidden',m!=='exame');
+  document.getElementById('c-fiv').classList.toggle('hidden',m!=='fiv');
+  calc();
+}
+function mask(el){
+  let v=el.value.replace(/[^0-9]/g,'');
+  if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
+  if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
+  el.value=v.slice(0,10);
+}
+function parseD(s){
+  const p=(s||'').split('/');
+  if(p.length!==3)return null;
+  const d=+p[0],m=+p[1]-1,y=+p[2];
+  if(isNaN(d)||isNaN(m)||isNaN(y)||y<1900||y>2100)return null;
+  const dt=new Date(y,m,d);
+  return(dt.getFullYear()===y&&dt.getMonth()===m&&dt.getDate()===d)?dt:null;
+}
+function fmt(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+const EX=[
+  {n:"Morfológico 1º tri",si:12,di:0,sf:13,df:5},
+  {n:"Morfológico 2º tri",si:21,di:0,sf:24,df:0},
+  {n:"Obstétrico 3º tri",si:28,di:0,sf:34,df:0}
+];
+function calc(){
+  let dum=null;
+  const hoje=new Date();hoje.setHours(0,0,0,0);
+  if(curM==='dum'){
+    dum=parseD(document.getElementById('dum').value);
+    if(!dum){hideRes();return;}
+  }else if(curM==='dpp'){
+    const d=parseD(document.getElementById('dpp').value);
+    if(!d){hideRes();return;}
+    dum=new Date(+d-280*864e5);
+  }else if(curM==='fiv'){
+    const transf=parseD(document.getElementById('fiv-data').value);
+    if(!transf){hideRes();return;}
+    // D3: IG na transferência = 2s6d = 20 dias → DUM = transf - 20
+    // D5: IG na transferência = 3s1d = 22 dias → DUM = transf - 22
+    const offset=curFiv==='d3'?17:19;
+    dum=new Date(+transf-offset*864e5);
+  }else{
+    const s=+document.getElementById('esem').value||0,
+          d=+document.getElementById('edias').value||0;
+    const ex=parseD(document.getElementById('ex').value);
+    if(!ex||!s){hideRes();return;}
+    dum=new Date(+ex-(s*7+d)*864e5);
+  }
+  if(!dum||isNaN(dum)){hideRes();return;}
+  const dpp=new Date(+dum+280*864e5),
+        conc=new Date(+dum+14*864e5),
+        diff=Math.floor((hoje-dum)/864e5);
+  // Labels dinâmicos
+  if(curM==='fiv'){
+    document.getElementById('r-dum-lbl').textContent='DUM equivalente';
+    document.getElementById('r-conc-row').classList.add('hidden');
+  }else{
+    document.getElementById('r-dum-lbl').textContent='Última menstruação';
+    document.getElementById('r-conc-row').classList.remove('hidden');
+  }
+  document.getElementById('r-dum').textContent=fmt(dum);
+  document.getElementById('r-conc').textContent=fmt(conc);
+  document.getElementById('r-dpp').textContent=fmt(dpp);
+  document.getElementById('r-ig').innerHTML=
+    '<span class="ig-n">'+Math.floor(diff/7)+'</span><span class="ig-u">sem</span> '+
+    '<span class="ig-n">'+(diff%7)+'</span><span class="ig-u">d</span>';
+  const tb=document.getElementById('exlist');tb.innerHTML='';
+  EX.forEach(ex=>{
+    const ini=new Date(+dum+(ex.si*7+ex.di)*864e5),
+          fim=new Date(+dum+(ex.sf*7+ex.df)*864e5);
+    const gone=hoje>fim,now=hoje>=ini&&hoje<=fim;
+    const tr=document.createElement('tr');
+    tr.className='ex-row'+(now?' now':gone?' past':'');
+    const bdg=now?'<span class="bdg">Agora</span>':gone?'<span class="bdg p">Passou</span>':'';
+    tr.innerHTML='<td>'+ex.n+bdg+'</td><td>'+fmt(ini)+'</td><td>'+fmt(fim)+'</td>';
+    tb.appendChild(tr);
+  });
+  showRes();
+}
+function showRes(){
+  document.getElementById('res').classList.remove('hidden');
+  document.getElementById('empty').classList.add('hidden');
+}
+function hideRes(){
+  document.getElementById('res').classList.add('hidden');
+  document.getElementById('empty').classList.remove('hidden');
+}
+function limpar(){
+  ['dum','dpp','ex','esem','edias','fiv-data'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  hideRes();
+}
+const OMS=[
+  {c:"Abaixo do peso",m:18.5},{c:"Peso normal",m:25},{c:"Sobrepeso",m:30},
+  {c:"Obesidade grau I",m:35},{c:"Obesidade grau II",m:40},{c:"Obesidade grau III",m:999}
+];
+function calcI(){
+  const p=+document.getElementById('peso').value,a=+document.getElementById('alt').value;
+  const el=document.getElementById('ires'),em=document.getElementById('iempty');
+  if(!p||!a||document.getElementById('alt').value.length<3){el.classList.add('hidden');em.classList.remove('hidden');return;}
+  const imc=p/((a/100)**2);
+  let cat=OMS[OMS.length-1];
+  for(const r of OMS)if(imc<r.m){cat=r;break;}
+  document.getElementById('iv').textContent=imc.toFixed(1).replace('.',',');
+  document.getElementById('il').textContent=cat.c;
+  el.classList.remove('hidden');
+  em.classList.add('hidden');
+}
+</script>
+</body>
+</html>
