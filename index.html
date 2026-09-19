@@ -389,6 +389,9 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
         </div>
       </div>
       <div class="frow"><label>ACM-PVS observada (cm/s)</label><input type="number" id="mca-psv" class="field" placeholder="ex: 55.0" step="0.1" oninput="calcMCA()"></div>
+      <div style="margin-top:12px;font-size:11.5px;color:var(--text2);background:rgba(180,106,26,.1);border:1px solid rgba(180,106,26,.25);border-radius:12px;padding:10px 12px;line-height:1.6">
+        <strong>Vale para feto ainda não transfundido.</strong> Após a 1ª transfusão intrauterina o sangue fetal passa a ser adulto e o corte de 1,50 MoM perde desempenho — o seguimento pós-TIU é do centro de referência que realizou o procedimento.
+      </div>
     </div>
     <div id="mca-empty" class="nm">
       <div class="empty">
@@ -462,7 +465,7 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
           </div>
           <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
             <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">≤ 0,55 MoM</span>
-            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Anemia grave</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Anemia grave — limiar de transfusão</span>
           </div>
         </div>
         <div style="margin-top:10px;font-size:11px;color:var(--text2);background:rgba(139,63,189,.07);border-radius:10px;padding:10px 12px;line-height:1.6">
@@ -585,7 +588,8 @@ function calcMCA(){
     bg='linear-gradient(135deg,#9b2226,#6b1518)';
     condutas=[
       {txt:'⚠️ Considerar cordocentese diagnóstica e possível transfusão intrauterina (TIU) — referenciar a centro de medicina fetal.', cor:'#9b2226'},
-      {txt:'Cordocentese + TIU se Hb fetal confirmada < 7 g/dL (Fetalmed) ou < 2 DP abaixo da média para a IG (FMF Barcelona). Meta: elevar Hb para 10–14 g/dL.', cor:'#9b2226'},
+      {txt:'O seguimento a partir da 1ª TIU fica com o centro que realizar o procedimento: os valores desta aba não se aplicam a feto já transfundido.', cor:'var(--clay)'},
+      {txt:'Cordocentese + TIU se Hb fetal confirmada < 7 g/dL (Fetalmed), ≤ 0,55 MoM para a IG (anemia grave — Mari) ou < 2 DP abaixo da média para a IG (FMF Barcelona). Meta: elevar Hb para 10–14 g/dL.', cor:'#9b2226'},
       {txt:'Preparar banco de sangue: hemácias O negativo irradiadas e lavadas, hematócrito 75–85%.', cor:'var(--clay)'},
       {txt:'Avaliar maturidade pulmonar e via de parto se IG ≥ 34 semanas — pode ser preferível ao procedimento invasivo.', cor:'var(--text2)'},
       {txt:'Corticoterapia se IG 24–34 semanas e procedimento de urgência planejado.', cor:'var(--text2)'}
