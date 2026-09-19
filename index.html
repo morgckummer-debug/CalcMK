@@ -117,6 +117,21 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
 .empty .ec{width:46px;height:46px;border-radius:50%;border:1px dashed var(--line);margin:0 auto 14px;
   display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;color:var(--text3)}
 .empty p{font-size:13px;font-weight:600;color:var(--text2);line-height:1.5;max-width:300px;margin:0 auto}
+.taps-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.taps-grid .frow{margin-top:0}
+.chk-group{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.chk{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:12.5px;color:var(--text2);
+  font-weight:600;line-height:1.4}
+.chk-box{width:19px;height:19px;border-radius:6px;background:rgba(255,255,255,.5);
+  border:2px solid var(--purple);flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:.2s;font-size:11px;font-weight:800;color:transparent}
+.chk.sel{color:var(--text)}
+.chk.sel .chk-box{background:var(--purple);border-color:transparent;color:#fff}
+.stage-card{background:rgba(255,255,255,.45);border:1px solid var(--glassb);border-radius:14px;padding:13px 14px}
+.stage-card .sc-h{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);
+  font-weight:800;margin-bottom:8px}
+.stage-card .sc-v{font-size:14.5px;font-weight:800;line-height:1.35}
+.stage-card .sc-d{font-size:11.5px;color:var(--text2);font-weight:600;margin-top:5px;line-height:1.5}
 .hidden{display:none}
 </style>
 </head>
@@ -145,6 +160,7 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
     <div class="tabs">
       <button class="tab" onclick="showTab('hdc',this)">Hérnia Diafragmática</button>
       <button class="tab" onclick="showTab('mca',this)">Anemia Fetal</button>
+      <button class="tab" onclick="showTab('taps',this)">TAPS Gemelar</button>
     </div>
   </div>
 
@@ -476,6 +492,125 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
     </div>
   </div>
 
+  <!-- TAPS — Sequencia Anemia-Policitemia (gemelares monocorionicos) -->
+  <div id="tab-taps" class="hidden">
+    <div class="nm">
+      <div class="toprow">
+        <div class="sec-title" style="margin-bottom:0">TAPS &mdash; Anemia-Policitemia</div>
+        <button class="btn-clear" onclick="limparTAPS()">Limpar</button>
+      </div>
+      <div class="frow"><label>Idade gestacional</label>
+        <div class="dual">
+          <input type="number" id="taps-sem" class="field" min="16" max="41" placeholder="Sem." oninput="calcTAPS();if(this.value.length>=2)document.getElementById('taps-dias').focus()">
+          <input type="number" id="taps-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcTAPS()">
+        </div>
+      </div>
+      <div class="taps-grid">
+        <div class="frow"><label>ACM-PVS Feto 1 (cm/s)</label><input type="number" id="taps-a" class="field" placeholder="ex: 70.0" step="0.1" oninput="calcTAPS()"></div>
+        <div class="frow"><label>ACM-PVS Feto 2 (cm/s)</label><input type="number" id="taps-b" class="field" placeholder="ex: 28.0" step="0.1" oninput="calcTAPS()"></div>
+      </div>
+      <div class="chk-group">
+        <label class="chk" id="taps-c-stff" onclick="tapsChk(this)"><div class="chk-box">&#10003;</div> Sequ&ecirc;ncia oligo-polidr&acirc;mnio presente</label>
+        <label class="chk" id="taps-c-doppler" onclick="tapsChk(this)"><div class="chk-box">&#10003;</div> Doppler criticamente alterado no doador (DV, AU ou VU)</label>
+        <label class="chk" id="taps-c-hidropsia" onclick="tapsChk(this)"><div class="chk-box">&#10003;</div> Hidropsia do doador</label>
+        <label class="chk" id="taps-c-obito" onclick="tapsChk(this)"><div class="chk-box">&#10003;</div> &Oacute;bito de um ou ambos os fetos</label>
+      </div>
+      <div style="margin-top:14px;font-size:11.5px;color:var(--text2);background:rgba(180,106,26,.1);border:1px solid rgba(180,106,26,.25);border-radius:12px;padding:10px 12px;line-height:1.6">
+        <strong>Exclusivo de gemelares monocori&ocirc;nicos.</strong> Vale para fetos ainda n&atilde;o transfundidos &mdash; ap&oacute;s a 1&ordf; transfus&atilde;o intrauterina o corte de MoM perde desempenho. O rastreio do PVS-ACM nos dois fetos &eacute; recomendado em toda gesta&ccedil;&atilde;o monocori&ocirc;nica a partir de 20 semanas e obrigatoriamente ap&oacute;s laser por STFF.
+      </div>
+    </div>
+    <div id="taps-empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p id="taps-empty-msg">Informe a IG e o pico de velocidade sist&oacute;lica da ACM dos dois fetos.</p>
+      </div>
+    </div>
+    <div id="taps-res" class="hidden">
+      <div class="nm">
+        <div class="res-list">
+          <div class="res-line"><span class="k">PVS mediana esperada (IG)</span><span class="v" id="taps-med"></span></div>
+          <div class="res-line"><span class="k">Feto 1 &mdash; MoM</span><span class="v" id="taps-moma"></span></div>
+          <div class="res-line"><span class="k">Feto 2 &mdash; MoM</span><span class="v" id="taps-momb"></span></div>
+          <div class="res-line"><span class="k">Doador (an&ecirc;mico)</span><span class="v" id="taps-doador"></span></div>
+          <div class="res-line"><span class="k">Receptor (policit&ecirc;mico)</span><span class="v" id="taps-receptor"></span></div>
+        </div>
+        <div class="ig-feature" id="taps-box">
+          <div class="k">Delta MoM</div>
+          <div class="ig-val"><span class="ig-n" id="taps-delta-val"></span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="taps-interp"></div>
+        </div>
+        <div class="taps-grid" style="margin-top:14px">
+          <div class="stage-card">
+            <div class="sc-h">Crit&eacute;rios de Leiden</div>
+            <div class="sc-v" id="taps-leiden"></div>
+            <div class="sc-d" id="taps-leiden-d"></div>
+          </div>
+          <div class="stage-card">
+            <div class="sc-h">Novos crit&eacute;rios (2019)</div>
+            <div class="sc-v" id="taps-novos"></div>
+            <div class="sc-d" id="taps-novos-d"></div>
+          </div>
+        </div>
+      </div>
+      <div id="taps-aviso-stff" class="hidden nm" style="background:rgba(155,34,38,.1);border:1px solid rgba(155,34,38,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:#9b2226;line-height:1.6">
+        &#9888;&#65039; <strong>Discord&acirc;ncia de l&iacute;quido amni&oacute;tico marcada</strong> &mdash; a TAPS &eacute; definida pela discord&acirc;ncia de hemoglobina <strong>sem</strong> sequ&ecirc;ncia oligo-polidr&acirc;mnio. Com oligo-poli presente o quadro caracteriza <strong>STFF</strong>, que se estadia por <strong>Quintero</strong> &mdash; esta aba n&atilde;o se aplica isoladamente. As duas condi&ccedil;&otilde;es podem coexistir ap&oacute;s laser incompleto.
+      </div>
+      <div id="taps-aviso-ig" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        &#9888;&#65039; <strong>IG fora da faixa validada</strong> &mdash; o nomograma de Mari foi constru&iacute;do para 18&ndash;40 semanas. Fora dessa faixa a PVS mediana &eacute; <strong>extrapolada</strong> e os MoM servem apenas como orienta&ccedil;&atilde;o.
+      </div>
+      <div id="taps-aviso-diverg" class="hidden nm" style="background:rgba(139,63,189,.08);border:1px solid rgba(107,49,145,.22);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--text2);line-height:1.6">
+        <strong>Os dois sistemas divergiram.</strong> Leiden exige que <em>os dois</em> fetos cruzem limiares absolutos (doador alto <em>e</em> receptor baixo); os crit&eacute;rios de 2019 olham apenas a <em>diferen&ccedil;a</em> entre eles. Por isso o delta detecta casos em que um dos fetos ainda n&atilde;o cruzou seu limiar &mdash; foi justamente essa maior sensibilidade antenatal que motivou a proposta de Tollenaar. Na d&uacute;vida, prevalece o <strong>estadiamento mais alto</strong> e a repeti&ccedil;&atilde;o do exame.
+      </div>
+      <div id="taps-conduta" class="hidden nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;color:var(--text3)">Conduta &mdash; apoio &agrave; decis&atilde;o</div>
+        <div id="taps-conduta-texto" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Crit&eacute;rios de Leiden &mdash; Slaghekke 2010</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,96,16,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 1</span>
+            <span style="color:#9b6010;font-weight:700;font-size:12.5px">Doador &gt; 1,50 MoM <em>e</em> receptor &lt; 1,00 MoM</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(180,106,26,.14);border-radius:12px;padding:10px 12px">
+            <span style="background:#b4531a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 2</span>
+            <span style="color:#b4531a;font-weight:700;font-size:12.5px">Doador &gt; 1,70 MoM <em>e</em> receptor &lt; 0,80 MoM</span>
+          </div>
+        </div>
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 8px;color:var(--text3)">Novos crit&eacute;rios &mdash; Tollenaar 2019</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,96,16,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 1</span>
+            <span style="color:#9b6010;font-weight:700;font-size:12.5px">Delta MoM &gt; 0,50 entre os dois fetos</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(180,106,26,.14);border-radius:12px;padding:10px 12px">
+            <span style="background:#b4531a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 2</span>
+            <span style="color:#b4531a;font-weight:700;font-size:12.5px">Delta MoM &gt; 0,70 entre os dois fetos</span>
+          </div>
+        </div>
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 8px;color:var(--text3)">Est&aacute;gios 3 a 5 &mdash; comuns aos dois sistemas</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 3</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Crit&eacute;rios de 1 ou 2 + Doppler criticamente alterado no doador (di&aacute;stole zero/reversa na AU, fluxo pulsátil na VU, IP aumentado ou onda A reversa no DV)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 4</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Hidropsia do doador</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(107,21,24,.12);border-radius:12px;padding:10px 12px">
+            <span style="background:#6b1518;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Est&aacute;gio 5</span>
+            <span style="color:#6b1518;font-weight:700;font-size:12.5px">&Oacute;bito intrauterino de um ou ambos os fetos</span>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:var(--text2);background:rgba(139,63,189,.07);border-radius:10px;padding:10px 12px;line-height:1.6">
+          <strong>TAPS &times; STFF:</strong> ambas ocorrem em monocori&ocirc;nicos, mas a TAPS resulta de anastomoses <em>muito finas</em> (&lt; 1 mm) e cursa com discord&acirc;ncia de hemoglobina <strong>sem</strong> a sequ&ecirc;ncia oligo-polidr&acirc;mnio. Pode ser espont&acirc;nea (3&ndash;5% das monocori&ocirc;nicas) ou p&oacute;s-laser, por anastomoses residuais &mdash; da&iacute; o rastreio obrigat&oacute;rio do PVS-ACM ap&oacute;s o tratamento da STFF.
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 &times; IG) &mdash; Mari <em>et al.</em>, N Engl J Med 2000; Klaritsch <em>et al.</em> (Ultrasound Obstet Gynecol 2009) mostraram que as faixas de refer&ecirc;ncia em monocori&ocirc;nicos s&atilde;o sobrepon&iacute;veis &agrave;s de feto &uacute;nico, e &eacute; sobre essa mediana que os dois sistemas definem o MoM. Estadiamento por Leiden &mdash; Slaghekke <em>et al.</em>, Fetal Diagn Ther 2010;27:181-90; delta de MoM &mdash; Tollenaar <em>et al.</em>, Ultrasound Obstet Gynecol 2019;53:788-93. Ferramenta de apoio: n&atilde;o substitui a avalia&ccedil;&atilde;o individualizada nem o julgamento cl&iacute;nico.</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <script>
 let curM='dum';
@@ -488,7 +623,7 @@ function setFiv(tipo,el){
   calc();
 }
 function showTab(t,btn){
-  ['ig','imc','mac','hdc','mca'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('hidden',t!==id));
+  ['ig','imc','mac','hdc','mca','taps'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('hidden',t!==id));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
 }
@@ -627,6 +762,147 @@ function limparMCA(){
   document.getElementById('mca-aviso-extrap').classList.add('hidden');
   document.getElementById('mca-aviso-35').classList.add('hidden');
   document.getElementById('mca-empty').classList.remove('hidden');
+}
+
+/* ── TAPS / Sequencia anemia-policitemia ── */
+function tapsChk(el){ el.classList.toggle('sel'); calcTAPS(); }
+function tapsOn(id){ return document.getElementById(id).classList.contains('sel'); }
+
+function calcTAPS(){
+  const sem=+document.getElementById('taps-sem').value||0,
+        dias=+document.getElementById('taps-dias').value||0,
+        pa=+document.getElementById('taps-a').value,
+        pb=+document.getElementById('taps-b').value;
+  const res=document.getElementById('taps-res'),emp=document.getElementById('taps-empty'),
+        msg=document.getElementById('taps-empty-msg');
+  const esconder=t=>{
+    msg.textContent=t;
+    res.classList.add('hidden');
+    document.getElementById('taps-conduta').classList.add('hidden');
+    emp.classList.remove('hidden');
+  };
+  if(!sem||!pa||!pb||pa<=0||pb<=0) return esconder('Informe a IG e o pico de velocidade sist\u00f3lica da ACM dos dois fetos.');
+
+  const GA=sem+(dias/7);
+  if(GA<16||GA>41) return esconder('IG fora da faixa do nomograma (16\u201341 semanas). O ACM-PVS de Mari \u00e9 validado entre 18 e 40 semanas.');
+
+  // Mediana do PVS-ACM por IG \u2014 mesma curva de Mari usada na aba de Anemia Fetal.
+  // Klaritsch mostrou que as faixas em monocori\u00f4nicos s\u00e3o sobrepon\u00edveis \u00e0s de feto \u00fanico,
+  // e \u00e9 sobre essa mediana que Leiden e Tollenaar definem o MoM de cada gemelar.
+  const mediana=Math.exp(2.31+(0.04643*GA));
+  const momA=pa/mediana, momB=pb/mediana;
+
+  // Doador = maior PVS (an\u00eamico) \u00b7 Receptor = menor PVS (policit\u00eamico)
+  const doadorA=momA>=momB;
+  const momD=doadorA?momA:momB, momR=doadorA?momB:momA;
+  const delta=momD-momR;
+
+  const stff=tapsOn('taps-c-stff'), dopp=tapsOn('taps-c-doppler'),
+        hidr=tapsOn('taps-c-hidropsia'), obito=tapsOn('taps-c-obito');
+
+  // Estadiamento. Leiden (Slaghekke 2010) usa os MoM absolutos dos dois fetos;
+  // os novos crit\u00e9rios (Tollenaar 2019) usam o delta de MoM entre eles.
+  // Est\u00e1gios 3 a 5 s\u00e3o comuns aos dois e t\u00eam preced\u00eancia: 5 > 4 > 3 > 2 > 1.
+  const estadiar=(b1,b2,d1,d2)=>{
+    if(!b1&&!b2) return {n:0,txt:'N\u00e3o preenche crit\u00e9rios',cor:'#386641',
+      det:'A discord\u00e2ncia do PVS-ACM n\u00e3o atinge o limiar deste sistema.'
+        +((dopp||hidr||obito)?' Os achados marcados acima s\u00f3 estadiam a TAPS quando os crit\u00e9rios de PVS-ACM s\u00e3o preenchidos \u2014 investigar outra causa.':'')};
+    if(obito) return {n:5,txt:'Est\u00e1gio 5',cor:'#6b1518',det:'\u00d3bito de um ou ambos os fetos.'};
+    if(hidr)  return {n:4,txt:'Est\u00e1gio 4',cor:'#9b2226',det:'Hidropsia do doador.'};
+    if(dopp)  return {n:3,txt:'Est\u00e1gio 3',cor:'#9b2226',det:'Doppler criticamente alterado no doador.'};
+    if(b2)    return {n:2,txt:'Est\u00e1gio 2',cor:'#b4531a',det:d2};
+    return {n:1,txt:'Est\u00e1gio 1',cor:'#9b6010',det:d1};
+  };
+  const leiden=estadiar(momD>1.5&&momR<1.0, momD>1.7&&momR<0.8,
+    'Doador > 1,50 MoM e receptor < 1,00 MoM.',
+    'Doador > 1,70 MoM e receptor < 0,80 MoM.');
+  const novos=estadiar(delta>0.5, delta>0.7,
+    'Delta MoM > 0,50.',
+    'Delta MoM > 0,70.');
+
+  const est=Math.max(leiden.n,novos.n);
+  let interp='', bg='', condutas=[];
+  if(est===0){
+    interp='Sem crit\u00e9rios de TAPS por nenhum dos dois sistemas';
+    bg='linear-gradient(135deg,#4f7a4a,#2f4a2c)';
+    condutas=[
+      {txt:'Sem evid\u00eancia de TAPS no momento.', cor:'#386641'},
+      {txt:'Manter rastreio do PVS-ACM nos DOIS fetos a cada 2 semanas a partir de 20 semanas em toda gesta\u00e7\u00e3o monocori\u00f4nica \u2014 e seriado ap\u00f3s laser por STFF, pela possibilidade de anastomoses residuais.', cor:'var(--text2)'},
+      {txt:'Valorizar a TEND\u00caNCIA do delta entre exames: um delta em ascens\u00e3o antecede o cruzamento do limiar.', cor:'var(--text2)'}
+    ];
+  } else if(est===1){
+    interp='TAPS est\u00e1gio 1 \u2014 discord\u00e2ncia inicial do PVS-ACM';
+    bg='linear-gradient(135deg,#9b6010,#6b3e08)';
+    condutas=[
+      {txt:'Repetir o PVS-ACM dos dois fetos em 1 semana (ou antes, se o contexto for p\u00f3s-laser ou houver tend\u00eancia ascendente).', cor:'var(--clay)'},
+      {txt:'Referenciar a centro de medicina fetal para confirma\u00e7\u00e3o e defini\u00e7\u00e3o de seguimento.', cor:'var(--clay)'},
+      {txt:'Investigar a etiologia: TAPS espont\u00e2nea ou p\u00f3s-laser por anastomoses residuais \u2014 a conduta e o progn\u00f3stico diferem.', cor:'var(--text2)'},
+      {txt:'Conduta expectante com vigil\u00e2ncia \u00e9 aceit\u00e1vel no est\u00e1gio 1, especialmente em IG avan\u00e7ada.', cor:'var(--text2)'}
+    ];
+  } else if(est===2){
+    interp='TAPS est\u00e1gio 2 \u2014 discord\u00e2ncia acentuada do PVS-ACM';
+    bg='linear-gradient(135deg,#b4531a,#7a3610)';
+    condutas=[
+      {txt:'\u26a0\ufe0f Referenciar a centro terci\u00e1rio de medicina fetal com cirurgia fetal dispon\u00edvel.', cor:'#b4531a'},
+      {txt:'Op\u00e7\u00f5es discutidas caso a caso: laser fetosc\u00f3pico das anastomoses (\u00fanico tratamento que trata a causa, preferencial antes de ~28 semanas), transfus\u00e3o intrauterina no doador \u00b1 transfus\u00e3o parcial de troca no receptor (medida-ponte), parto em IG avan\u00e7ada ou conduta expectante em casos selecionados.', cor:'var(--clay)'},
+      {txt:'Vigil\u00e2ncia semanal com PVS-ACM dos dois fetos, Doppler completo e pesquisa de hidropsia enquanto a conduta \u00e9 definida.', cor:'var(--clay)'},
+      {txt:'Corticoterapia para matura\u00e7\u00e3o pulmonar se IG 24\u201334 semanas e parto ou procedimento poss\u00edveis em curto prazo.', cor:'var(--text2)'}
+    ];
+  } else if(est===3||est===4){
+    interp=(est===4?'TAPS est\u00e1gio 4 \u2014 hidropsia do doador':'TAPS est\u00e1gio 3 \u2014 compromisso cardiovascular do doador');
+    bg='linear-gradient(135deg,#9b2226,#6b1518)';
+    condutas=[
+      {txt:'\u26a0\ufe0f Encaminhamento URGENTE a centro terci\u00e1rio de medicina fetal \u2014 risco elevado de \u00f3bito intrauterino.', cor:'#9b2226'},
+      {txt:'Interven\u00e7\u00e3o em discuss\u00e3o imediata: laser fetosc\u00f3pico, transfus\u00e3o intrauterina de resgate ou parto, conforme IG, viabilidade e condi\u00e7\u00f5es t\u00e9cnicas.', cor:'#9b2226'},
+      {txt:'Corticoterapia se IG 24\u201334 semanas; avaliar neuroprote\u00e7\u00e3o com sulfato de magn\u00e9sio se parto iminente abaixo de 32 semanas.', cor:'var(--clay)'},
+      {txt:'Preparar banco de sangue se TIU considerada: hem\u00e1cias O negativo irradiadas e lavadas, hemat\u00f3crito 75\u201385%.', cor:'var(--clay)'}
+    ];
+  } else {
+    interp='TAPS est\u00e1gio 5 \u2014 \u00f3bito de um ou ambos os fetos';
+    bg='linear-gradient(135deg,#6b1518,#3d0c0e)';
+    condutas=[
+      {txt:'\u26a0\ufe0f Conduta em centro terci\u00e1rio. Ap\u00f3s o \u00f3bito de um gemelar monocori\u00f4nico h\u00e1 risco de exsangu\u00ednea\u00e7\u00e3o aguda do sobrevivente para o feto morto.', cor:'#9b2226'},
+      {txt:'Avaliar o sobrevivente: PVS-ACM (anemia aguda) e Doppler completo nas horas/dias seguintes.', cor:'#9b2226'},
+      {txt:'Resson\u00e2ncia magn\u00e9tica fetal 3\u20134 semanas ap\u00f3s o evento para rastreio de les\u00e3o neurol\u00f3gica isqu\u00eamica.', cor:'var(--clay)'},
+      {txt:'Parto imediato costuma N\u00c3O beneficiar o sobrevivente \u2014 a les\u00e3o, quando ocorre, \u00e9 concomitante ao \u00f3bito. Individualizar conforme IG.', cor:'var(--text2)'},
+      {txt:'Acolhimento e suporte ao luto perinatal; planejar seguimento neurol\u00f3gico p\u00f3s-natal.', cor:'var(--text2)'}
+    ];
+  }
+
+  const fmt=v=>v.toFixed(2).replace('.',',');
+  document.getElementById('taps-med').textContent=mediana.toFixed(1)+' cm/s  (1,50 MoM = '+(mediana*1.5).toFixed(1)+' cm/s)';
+  document.getElementById('taps-moma').textContent=fmt(momA)+' MoM  ('+pa.toFixed(1)+' cm/s)';
+  document.getElementById('taps-momb').textContent=fmt(momB)+' MoM  ('+pb.toFixed(1)+' cm/s)';
+  document.getElementById('taps-doador').innerHTML='<span style="color:#9b2226;font-weight:700">Feto '+(doadorA?'1':'2')+' \u2014 '+fmt(momD)+' MoM</span>';
+  document.getElementById('taps-receptor').innerHTML='<span style="color:#6B3191;font-weight:700">Feto '+(doadorA?'2':'1')+' \u2014 '+fmt(momR)+' MoM</span>';
+  document.getElementById('taps-delta-val').textContent=fmt(delta);
+  document.getElementById('taps-interp').textContent=interp;
+  document.getElementById('taps-box').style.background=bg;
+
+  document.getElementById('taps-leiden').innerHTML='<span style="color:'+leiden.cor+'">'+leiden.txt+'</span>';
+  document.getElementById('taps-leiden-d').textContent=leiden.det;
+  document.getElementById('taps-novos').innerHTML='<span style="color:'+novos.cor+'">'+novos.txt+'</span>';
+  document.getElementById('taps-novos-d').textContent=novos.det;
+
+  const condDiv=document.getElementById('taps-conduta-texto');
+  condDiv.innerHTML=condutas.map(c=>'<div style="padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.45);border:1px solid var(--glassb);color:'+c.cor+';font-weight:600">'+c.txt+'</div>').join('');
+  document.getElementById('taps-conduta').classList.remove('hidden');
+
+  document.getElementById('taps-aviso-stff').classList.toggle('hidden', !stff);
+  document.getElementById('taps-aviso-ig').classList.toggle('hidden', GA>=18&&GA<=40);
+  document.getElementById('taps-aviso-diverg').classList.toggle('hidden', leiden.n===novos.n);
+  res.classList.remove('hidden');emp.classList.add('hidden');
+}
+function limparTAPS(){
+  ['taps-sem','taps-dias','taps-a','taps-b'].forEach(id=>document.getElementById(id).value='');
+  ['taps-c-stff','taps-c-doppler','taps-c-hidropsia','taps-c-obito']
+    .forEach(id=>document.getElementById(id).classList.remove('sel'));
+  document.getElementById('taps-empty-msg').textContent='Informe a IG e o pico de velocidade sist\u00f3lica da ACM dos dois fetos.';
+  document.getElementById('taps-res').classList.add('hidden');
+  document.getElementById('taps-conduta').classList.add('hidden');
+  ['taps-aviso-stff','taps-aviso-ig','taps-aviso-diverg']
+    .forEach(id=>document.getElementById(id).classList.add('hidden'));
+  document.getElementById('taps-empty').classList.remove('hidden');
 }
 
 /* ── MAC / CVR ── */
