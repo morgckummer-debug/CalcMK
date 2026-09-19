@@ -384,31 +384,43 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
       </div>
       <div class="frow"><label>Idade gestacional</label>
         <div class="dual">
-          <input type="number" id="mca-sem" class="field" min="16" max="40" placeholder="Sem." oninput="calcMCA();if(this.value.length>=2)document.getElementById('mca-dias').focus()">
+          <input type="number" id="mca-sem" class="field" min="16" max="41" placeholder="Sem." oninput="calcMCA();if(this.value.length>=2)document.getElementById('mca-dias').focus()">
           <input type="number" id="mca-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcMCA()">
         </div>
       </div>
       <div class="frow"><label>ACM-PVS observada (cm/s)</label><input type="number" id="mca-psv" class="field" placeholder="ex: 55.0" step="0.1" oninput="calcMCA()"></div>
+      <div style="margin-top:12px;font-size:11.5px;color:var(--text2);background:rgba(180,106,26,.1);border:1px solid rgba(180,106,26,.25);border-radius:12px;padding:10px 12px;line-height:1.6">
+        <strong>Vale para feto ainda não transfundido.</strong> Após a 1ª transfusão intrauterina o sangue fetal passa a ser adulto e o corte de 1,50 MoM perde desempenho — o seguimento pós-TIU é do centro de referência que realizou o procedimento.
+      </div>
     </div>
     <div id="mca-empty" class="nm">
       <div class="empty">
         <div class="ec">+</div>
-        <p>Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.</p>
+        <p id="mca-empty-msg">Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.</p>
       </div>
     </div>
     <div id="mca-res" class="hidden">
       <div class="nm">
         <div class="res-list">
           <div class="res-line"><span class="k">ACM-PVS observada</span><span class="v" id="mca-psv-r"></span></div>
-          <div class="res-line"><span class="k">Mediana esperada para a IG</span><span class="v" id="mca-med"></span></div>
+          <div class="res-line"><span class="k">PVS mediana esperada (IG)</span><span class="v" id="mca-med"></span></div>
+          <div class="res-line"><span class="k">Hb mediana esperada (IG)</span><span class="v" id="mca-hbmed"></span></div>
           <div class="res-line"><span class="k">Hb fetal estimada</span><span class="v" id="mca-hb"></span></div>
-          <div class="res-line"><span class="k">Classificação da anemia</span><span class="v" id="mca-classif"></span></div>
+          <div class="res-line"><span class="k">Hb estimada em MoM</span><span class="v" id="mca-hbmom"></span></div>
+          <div class="res-line"><span class="k">Gravidade pela Hb (Mari)</span><span class="v" id="mca-grav"></span></div>
+          <div class="res-line"><span class="k">Classificação pela PVS</span><span class="v" id="mca-classif"></span></div>
         </div>
         <div class="ig-feature" id="mca-box">
           <div class="k">MoM</div>
           <div class="ig-val"><span class="ig-n" id="mca-mom-val"></span></div>
           <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="mca-interp"></div>
         </div>
+      </div>
+      <div id="mca-aviso-ig" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        ⚠️ <strong>IG fora da faixa validada</strong> — o nomograma de Mari foi construído para 18–40 semanas. Fora dessa faixa a PVS mediana e a Hb mediana são <strong>extrapoladas</strong> e a estimativa serve apenas como orientação.
+      </div>
+      <div id="mca-aviso-extrap" class="hidden nm" style="background:rgba(155,34,38,.1);border:1px solid rgba(155,34,38,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:#9b2226;line-height:1.6">
+        ⚠️ <strong>PVS MoM acima do domínio da função cúbica</strong> — acima de 2,37 MoM a equação de Mari 2005 deixa de ser monotônica (volta a subir). A Hb estimada está travada no valor mínimo que a função produz e é apresentada como <strong>“≤”</strong>: a Hb real é igual ou menor. Nesta faixa, decidir pela cordocentese, não pela estimativa.
       </div>
       <div id="mca-aviso-35" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
         ⚠️ <strong>Atenção — após 35 semanas</strong> a especificidade do ACM-PVS é reduzida e falsos positivos são mais frequentes. Interprete em conjunto com o contexto clínico e considere Doppler confirmatório.
@@ -418,18 +430,18 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
         <div id="mca-conduta-texto" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
       <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
-        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Interpretação — FMF Barcelona / Fetalmed</div>
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Interpretação pela PVS — Mari et al.</div>
         <div style="display:flex;flex-direction:column;gap:7px">
           <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
-            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">MoM &lt; 1,0</span>
-            <span style="color:#386641;font-weight:700;font-size:12.5px">Normal — sem evidência de anemia</span>
+            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">&lt; 1,00 MoM</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Normal — PVS igual ou abaixo da mediana</span>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;background:rgba(180,106,26,.1);border-radius:12px;padding:10px 12px">
-            <span style="background:#b46a1a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,0 – 1,29 MoM</span>
-            <span style="color:#b46a1a;font-weight:700;font-size:12.5px">Zona de vigilância — repetir em 1–2 semanas</span>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#4f7a4a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,00 – 1,28 MoM</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Normal — acima da mediana, ainda sem anemia. Valorizar a tendência entre exames</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;background:rgba(155,96,16,.1);border-radius:12px;padding:10px 12px">
-            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,29 – 1,50 MoM</span>
+            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">1,29 – 1,49 MoM</span>
             <span style="color:#9b6010;font-weight:700;font-size:12.5px">Suspeita de anemia leve — acompanhamento seriado</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
@@ -437,7 +449,29 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
             <span style="color:#9b2226;font-weight:700;font-size:12.5px">Suspeita de anemia moderada/grave — considerar cordocentese e possível transfusão intrauterina</span>
           </div>
         </div>
-        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 × IG) — Mari 2000. Hb mediana por tabela — Mari 2000. Hb estimada pela função cúbica — Mari 2005 (Ultrasound Obstet Gynecol). Estimativa indireta; Hb real confirmada por cordocentese.</div>
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 8px;color:var(--text3)">Gravidade pela Hb — Mari et al.</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">Hb &gt; 0,84 MoM</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Sem anemia</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,96,16,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b6010;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">0,65 – 0,84 MoM</span>
+            <span style="color:#9b6010;font-weight:700;font-size:12.5px">Anemia leve</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(180,106,26,.14);border-radius:12px;padding:10px 12px">
+            <span style="background:#b4531a;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">0,55 – 0,65 MoM</span>
+            <span style="color:#b4531a;font-weight:700;font-size:12.5px">Anemia moderada</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(155,34,38,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#9b2226;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">≤ 0,55 MoM</span>
+            <span style="color:#9b2226;font-weight:700;font-size:12.5px">Anemia grave — limiar de transfusão</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text2);background:rgba(139,63,189,.07);border-radius:10px;padding:10px 12px;line-height:1.6">
+          <strong>Por que as duas classificações podem divergir:</strong> a faixa da PVS (≥ 1,50 MoM) é calibrada para <em>sensibilidade</em> de 100% para anemia moderada/grave, aceitando falsos-positivos. Já a gravidade pela Hb é uma estimativa pontual da cúbica de Mari, que em 1,50 MoM devolve ≈ 0,67 MoM de Hb — bem no limite entre leve e moderada. Perto dos limiares (1,29 e 1,50 MoM) as duas linhas podem não coincidir: <strong>a conduta segue a PVS</strong>; a Hb estimada serve para dimensionar a gravidade e planejar a transfusão.
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 × IG) — Mari <em>et al.</em>, N Engl J Med 2000 (reproduz a tabela do artigo, 18–40 sem., ±0,1 cm/s). Hb mediana por IG — Mari 2000. Hb estimada = Hb mediana × (0,6835 + 1,2794·MoM − 1,2885·MoM² + 0,2861·MoM³) — função cúbica de Mari, Ultrasound Obstet Gynecol 2005; válida para PVS MoM entre 0,63 e 2,37. Gravidade pela Hb (≤ 0,84 / 0,65 / 0,55 MoM) — Mari 2000/2005. Conduta — protocolos FMF Barcelona / Fetalmed. Estimativa indireta: a Hb real só é confirmada por cordocentese.</div>
       </div>
     </div>
   </div>
@@ -464,52 +498,83 @@ function calcMCA(){
   const sem=+document.getElementById('mca-sem').value||0,
         dias=+document.getElementById('mca-dias').value||0,
         psv=+document.getElementById('mca-psv').value;
-  const res=document.getElementById('mca-res'),emp=document.getElementById('mca-empty');
-  if(!sem||!psv){res.classList.add('hidden');emp.classList.remove('hidden');return;}
+  const res=document.getElementById('mca-res'),emp=document.getElementById('mca-empty'),
+        msg=document.getElementById('mca-empty-msg');
+  const esconder=t=>{
+    msg.textContent=t;
+    res.classList.add('hidden');
+    document.getElementById('mca-conduta').classList.add('hidden');
+    emp.classList.remove('hidden');
+  };
+  if(!sem||!psv||psv<=0) return esconder('Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.');
+
   const GA=sem+(dias/7);
+  // Faixa do nomograma de Mari 2000: 18–40 semanas. Aceitamos 16–41 com aviso;
+  // fora disso não há mediana de PVS nem de Hb para extrapolar com segurança.
+  if(GA<16||GA>41) return esconder('IG fora da faixa do nomograma (16–41 semanas). O ACM-PVS de Mari é validado entre 18 e 40 semanas.');
+
   const mediana=Math.exp(2.31+(0.04643*GA));
   const mom=psv/mediana;
-  // Hb mediana fetal por IG — Mari 2000 (Tabela 1, semanas inteiras; ímpares interpoladas)
+
+  // Hb mediana fetal por IG (g/dL) — Mari 2000. 18–40 sem. são os valores publicados;
+  // 16 e 17 sem. são extrapolações e disparam o aviso de IG.
   const HB_TABLE={16:10.0,17:10.4,18:10.6,19:10.9,20:11.1,21:11.4,22:11.6,23:11.8,
     24:12.0,25:12.1,26:12.3,27:12.4,28:12.6,29:12.7,30:12.8,31:12.9,
     32:13.1,33:13.2,34:13.3,35:13.4,36:13.5,37:13.5,38:13.6,39:13.6,40:13.7};
-  const semInt=Math.floor(GA), frac=GA-semInt;
-  const hbLow=HB_TABLE[semInt]||10.0, hbHigh=HB_TABLE[Math.min(semInt+1,40)]||hbLow;
+  const semClamp=Math.min(Math.max(GA,16),40);
+  const semInt=Math.floor(semClamp), frac=semClamp-semInt;
+  const hbLow=HB_TABLE[semInt], hbHigh=HB_TABLE[Math.min(semInt+1,40)]||hbLow;
   const hbMediana=hbLow+(hbHigh-hbLow)*frac;
-  // Hb MoM estimada — fórmula cúbica de Mari 2005 (Ultrasound Obstet Gynecol)
-  // Hb MoM = 0.6835 + 1.2794×PSV_MoM − 1.2885×PSV_MoM² + 0.2861×PSV_MoM³
-  const hbMoM = 0.6835 + (1.2794*mom) - (1.2885*mom*mom) + (0.2861*mom*mom*mom);
-  const hbEst = Math.max(hbMoM * hbMediana, 0);
 
-  // Classificação por MoM (FMF Barcelona / Fetalmed)
-  // < 1,0    → Normal
-  // 1,0–1,29 → Zona de vigilância
-  // 1,29–1,50→ Suspeita de anemia leve
-  // ≥ 1,50   → Suspeita de anemia moderada/grave
+  // Hb MoM estimada — função cúbica de Mari (Ultrasound Obstet Gynecol 2005):
+  // Hb MoM = 0,6835 + 1,2794·M − 1,2885·M² + 0,2861·M³
+  // A cúbica só é monotônica decrescente entre M = 0,6276 e M = 2,3748 (raízes da
+  // derivada). Fora desse intervalo ela volta a subir e devolveria uma Hb MAIOR
+  // para um feto MAIS anêmico — por isso o domínio é travado e o valor sai como "≤".
+  const M_LO=0.6276, M_HI=2.3748;
+  const cubica=m=>0.6835+(1.2794*m)-(1.2885*m*m)+(0.2861*m*m*m);
+  const momCalc=Math.min(Math.max(mom,M_LO),M_HI);
+  const foraDominio=mom>M_HI;
+  const hbMoM=cubica(momCalc);
+  const hbEst=Math.max(hbMoM*hbMediana,0);
+
+  // Gravidade pela Hb — Mari et al.: anemia se Hb ≤ 0,84 MoM;
+  // leve 0,65–0,84 · moderada 0,55–0,65 · grave ≤ 0,55 MoM.
+  let grav='', gravColor='';
+  if(hbMoM>0.84){ grav='Sem anemia'; gravColor='#386641'; }
+  else if(hbMoM>0.65){ grav='Anemia leve'; gravColor='#9b6010'; }
+  else if(hbMoM>0.55){ grav='Anemia moderada'; gravColor='#b4531a'; }
+  else { grav='Anemia grave'; gravColor='#9b2226'; }
+  if(foraDominio) grav='Anemia grave';
+
+  // Classificação pela PVS (MoM) — Mari 2000:
+  // < 1,29   → sem anemia (1,00 é a própria mediana esperada)
+  // 1,29–1,49→ suspeita de anemia leve
+  // ≥ 1,50   → suspeita de anemia moderada/grave (sensibilidade 100%)
   let classif='', classifColor='', interp='', bg='', condutas=[];
   if(mom<1.0){
     classif='Normal';
     classifColor='#386641';
-    interp='Normal — sem evidência de anemia';
+    interp='Normal — PVS igual ou abaixo da mediana esperada';
     bg='linear-gradient(135deg,#8B3FBD,#5a2080)';
     condutas=[
       {txt:'Sem evidência de anemia fetal.', cor:'#386641'},
       {txt:'Manter seguimento habitual conforme indicação clínica (isoimunização, STFF, parvovírus B19).', cor:'var(--text2)'}
     ];
   } else if(mom<1.29){
-    classif='Zona de vigilância';
-    classifColor='#b46a1a';
-    interp='Zona de vigilância (MoM 1,0–1,29)';
-    bg='linear-gradient(135deg,#b46a1a,#7a4510)';
+    classif='Normal';
+    classifColor='#386641';
+    interp='Normal — acima da mediana, ainda sem anemia (MoM 1,00–1,28)';
+    bg='linear-gradient(135deg,#4f7a4a,#2f4a2c)';
     condutas=[
-      {txt:'Repetir ACM-PVS em 1–2 semanas.', cor:'var(--text2)'},
-      {txt:'Avaliar etiologia: pesquisar anticorpos, parvovírus B19, STFF.', cor:'var(--text2)'},
-      {txt:'Sem indicação de procedimento invasivo neste momento — monitorizar tendência temporal.', cor:'var(--clay)'}
+      {txt:'Sem evidência de anemia fetal: em Mari et al. o limiar de anemia é 1,29 MoM — valores entre 1,00 e 1,28 são normais.', cor:'#386641'},
+      {txt:'Valorizar a TENDÊNCIA: repetir conforme o risco de base (semanal na isoimunização com títulos em ascensão, STFF ou parvovírus recente).', cor:'var(--text2)'},
+      {txt:'Sem indicação de procedimento invasivo.', cor:'var(--text2)'}
     ];
   } else if(mom<1.50){
     classif='Suspeita de anemia leve';
     classifColor='#9b6010';
-    interp='Suspeita de anemia leve (MoM 1,29–1,50)';
+    interp='Suspeita de anemia leve (MoM 1,29–1,49)';
     bg='linear-gradient(135deg,#9b6010,#6b3e08)';
     condutas=[
       {txt:'Acompanhamento seriado — repetir ACM-PVS em 24–48h ou no máximo em 1 semana.', cor:'var(--clay)'},
@@ -523,16 +588,21 @@ function calcMCA(){
     bg='linear-gradient(135deg,#9b2226,#6b1518)';
     condutas=[
       {txt:'⚠️ Considerar cordocentese diagnóstica e possível transfusão intrauterina (TIU) — referenciar a centro de medicina fetal.', cor:'#9b2226'},
-      {txt:'Cordocentese + TIU se Hb fetal confirmada < 7 g/dL (Fetalmed) ou < 2 DP abaixo da média para a IG (FMF Barcelona). Meta: elevar Hb para 10–14 g/dL.', cor:'#9b2226'},
+      {txt:'O seguimento a partir da 1ª TIU fica com o centro que realizar o procedimento: os valores desta aba não se aplicam a feto já transfundido.', cor:'var(--clay)'},
+      {txt:'Cordocentese + TIU se Hb fetal confirmada < 7 g/dL (Fetalmed), ≤ 0,55 MoM para a IG (anemia grave — Mari) ou < 2 DP abaixo da média para a IG (FMF Barcelona). Meta: elevar Hb para 10–14 g/dL.', cor:'#9b2226'},
       {txt:'Preparar banco de sangue: hemácias O negativo irradiadas e lavadas, hematócrito 75–85%.', cor:'var(--clay)'},
       {txt:'Avaliar maturidade pulmonar e via de parto se IG ≥ 34 semanas — pode ser preferível ao procedimento invasivo.', cor:'var(--text2)'},
       {txt:'Corticoterapia se IG 24–34 semanas e procedimento de urgência planejado.', cor:'var(--text2)'}
     ];
   }
 
+  const pre=foraDominio?'≤ ':'';
   document.getElementById('mca-psv-r').textContent=psv.toFixed(1)+' cm/s';
-  document.getElementById('mca-med').textContent=mediana.toFixed(1)+' cm/s (mediana Hb: '+hbMediana.toFixed(1)+' g/dL)';
-  document.getElementById('mca-hb').innerHTML='<span style="color:'+classifColor+';font-weight:700">'+hbEst.toFixed(1)+' g/dL</span>';
+  document.getElementById('mca-med').textContent=mediana.toFixed(1)+' cm/s  (1,50 MoM = '+(mediana*1.5).toFixed(1)+' cm/s)';
+  document.getElementById('mca-hbmed').textContent=hbMediana.toFixed(1)+' g/dL';
+  document.getElementById('mca-hb').innerHTML='<span style="color:'+gravColor+';font-weight:700">'+pre+hbEst.toFixed(1)+' g/dL</span>';
+  document.getElementById('mca-hbmom').textContent=pre+hbMoM.toFixed(2)+' MoM';
+  document.getElementById('mca-grav').innerHTML='<span style="color:'+gravColor+';font-weight:700">'+grav+'</span>';
   document.getElementById('mca-classif').innerHTML='<span style="color:'+classifColor+';font-weight:700">'+classif+'</span>';
   document.getElementById('mca-mom-val').textContent=mom.toFixed(2);
   document.getElementById('mca-interp').textContent=interp;
@@ -543,13 +613,19 @@ function calcMCA(){
   condDiv.innerHTML=condutas.map(c=>'<div style="padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.45);border:1px solid var(--glassb);color:'+c.cor+';font-weight:600">'+c.txt+'</div>').join('');
   document.getElementById('mca-conduta').classList.remove('hidden');
 
+  document.getElementById('mca-aviso-ig').classList.toggle('hidden', GA>=18&&GA<=40);
+  document.getElementById('mca-aviso-extrap').classList.toggle('hidden', !foraDominio);
   document.getElementById('mca-aviso-35').classList.toggle('hidden', GA<35);
   res.classList.remove('hidden');emp.classList.add('hidden');
 }
 function limparMCA(){
   ['mca-sem','mca-dias','mca-psv'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('mca-empty-msg').textContent='Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.';
   document.getElementById('mca-res').classList.add('hidden');
   document.getElementById('mca-conduta').classList.add('hidden');
+  document.getElementById('mca-aviso-ig').classList.add('hidden');
+  document.getElementById('mca-aviso-extrap').classList.add('hidden');
+  document.getElementById('mca-aviso-35').classList.add('hidden');
   document.getElementById('mca-empty').classList.remove('hidden');
 }
 
