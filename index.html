@@ -367,6 +367,69 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
             <span style="color:var(--purple);font-weight:700;font-size:12.5px">Prognóstico moderado</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
+            <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">o/e LHR &gt; 65%</span>
+            <span style="color:#386641;font-weight:700;font-size:12.5px">Prognóstico relativamente favorável</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">Fórmula: método tracing. GA em semanas.</div>
+      </div>
+    </div>
+  </div>
+  <!-- Anemia Fetal (MCA-PSV) -->
+  <div id="tab-mca" class="hidden">
+    <div class="nm">
+      <div class="toprow">
+        <div class="sec-title" style="margin-bottom:0">ACM — Pico de Velocidade Sistólica</div>
+        <button class="btn-clear" onclick="limparMCA()">Limpar</button>
+      </div>
+      <div class="frow"><label>Idade gestacional</label>
+        <div class="dual">
+          <input type="number" id="mca-sem" class="field" min="16" max="41" placeholder="Sem." oninput="calcMCA();if(this.value.length>=2)document.getElementById('mca-dias').focus()">
+          <input type="number" id="mca-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcMCA()">
+        </div>
+      </div>
+      <div class="frow"><label>ACM-PVS observada (cm/s)</label><input type="number" id="mca-psv" class="field" placeholder="ex: 55.0" step="0.1" oninput="calcMCA()"></div>
+    </div>
+    <div id="mca-empty" class="nm">
+      <div class="empty">
+        <div class="ec">+</div>
+        <p id="mca-empty-msg">Informe a IG e o pico de velocidade sistólica da ACM para calcular o MoM.</p>
+      </div>
+    </div>
+    <div id="mca-res" class="hidden">
+      <div class="nm">
+        <div class="res-list">
+          <div class="res-line"><span class="k">ACM-PVS observada</span><span class="v" id="mca-psv-r"></span></div>
+          <div class="res-line"><span class="k">PVS mediana esperada (IG)</span><span class="v" id="mca-med"></span></div>
+          <div class="res-line"><span class="k">Hb mediana esperada (IG)</span><span class="v" id="mca-hbmed"></span></div>
+          <div class="res-line"><span class="k">Hb fetal estimada</span><span class="v" id="mca-hb"></span></div>
+          <div class="res-line"><span class="k">Hb estimada em MoM</span><span class="v" id="mca-hbmom"></span></div>
+          <div class="res-line"><span class="k">Gravidade pela Hb (Mari)</span><span class="v" id="mca-grav"></span></div>
+          <div class="res-line"><span class="k">Classificação pela PVS</span><span class="v" id="mca-classif"></span></div>
+        </div>
+        <div class="ig-feature" id="mca-box">
+          <div class="k">MoM</div>
+          <div class="ig-val"><span class="ig-n" id="mca-mom-val"></span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600;line-height:1.5" id="mca-interp"></div>
+        </div>
+      </div>
+      <div id="mca-aviso-ig" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        ⚠️ <strong>IG fora da faixa validada</strong> — o nomograma de Mari foi construído para 18–40 semanas. Fora dessa faixa a PVS mediana e a Hb mediana são <strong>extrapoladas</strong> e a estimativa serve apenas como orientação.
+      </div>
+      <div id="mca-aviso-extrap" class="hidden nm" style="background:rgba(155,34,38,.1);border:1px solid rgba(155,34,38,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:#9b2226;line-height:1.6">
+        ⚠️ <strong>PVS MoM acima do domínio da função cúbica</strong> — acima de 2,37 MoM a equação de Mari 2005 deixa de ser monotônica (volta a subir). A Hb estimada está travada no valor mínimo que a função produz e é apresentada como <strong>“≤”</strong>: a Hb real é igual ou menor. Nesta faixa, decidir pela cordocentese, não pela estimativa.
+      </div>
+      <div id="mca-aviso-35" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        ⚠️ <strong>Atenção — após 35 semanas</strong> a especificidade do ACM-PVS é reduzida e falsos positivos são mais frequentes. Interprete em conjunto com o contexto clínico e considere Doppler confirmatório.
+      </div>
+      <div id="mca-conduta" class="hidden nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;color:var(--text3)">Conduta — FMF Barcelona / Fetalmed</div>
+        <div id="mca-conduta-texto" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div class="nm" style="font-size:12px;color:var(--text2);line-height:1.7">
+        <div style="font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;color:var(--text3)">Interpretação pela PVS — Mari et al.</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(56,102,65,.1);border-radius:12px;padding:10px 12px">
             <span style="background:#386641;color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0">&lt; 1,00 MoM</span>
             <span style="color:#386641;font-weight:700;font-size:12.5px">Normal — PVS igual ou abaixo da mediana</span>
           </div>
@@ -403,9 +466,9 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
           </div>
         </div>
         <div style="margin-top:10px;font-size:11px;color:var(--text2);background:rgba(139,63,189,.07);border-radius:10px;padding:10px 12px;line-height:1.6">
-          <strong>Por que as duas classificações podem divergir:</strong> a faixa da PVS (≥ 1,50 MoM) é calibrada para <em>sensibilidade</em> de 100% para anemia moderada/grave, aceitando falsos-positivos. Já a gravidade pela Hb é uma estimativa pontual da cúbica de Mari, que em 1,50 MoM devolve ≈ 0,67 MoM de Hb — ou seja, bem no limite entre leve e moderada. Perto dos limiares (1,29 e 1,50 MoM) as duas colunas podem não coincidir: <strong>a conduta segue a PVS</strong>; a Hb estimada serve para dimensionar a gravidade e planejar a transfusão.
+          <strong>Por que as duas classificações podem divergir:</strong> a faixa da PVS (≥ 1,50 MoM) é calibrada para <em>sensibilidade</em> de 100% para anemia moderada/grave, aceitando falsos-positivos. Já a gravidade pela Hb é uma estimativa pontual da cúbica de Mari, que em 1,50 MoM devolve ≈ 0,67 MoM de Hb — bem no limite entre leve e moderada. Perto dos limiares (1,29 e 1,50 MoM) as duas linhas podem não coincidir: <strong>a conduta segue a PVS</strong>; a Hb estimada serve para dimensionar a gravidade e planejar a transfusão.
         </div>
-        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 × IG) — Mari <em>et al.</em>, N Engl J Med 2000 (reproduz a Tabela do artigo, 18–40 sem., ±0,1 cm/s). Hb mediana por IG — Mari 2000. Hb estimada = Hb mediana × (0,6835 + 1,2794·MoM − 1,2885·MoM² + 0,2861·MoM³) — função cúbica de Mari, Ultrasound Obstet Gynecol 2005; válida para PVS MoM entre 0,63 e 2,37. Gravidade pela Hb (≤ 0,84 / 0,65 / 0,55 MoM) — Mari 2000/2005. Estimativa indireta: a Hb real só é confirmada por cordocentese.</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 × IG) — Mari <em>et al.</em>, N Engl J Med 2000 (reproduz a tabela do artigo, 18–40 sem., ±0,1 cm/s). Hb mediana por IG — Mari 2000. Hb estimada = Hb mediana × (0,6835 + 1,2794·MoM − 1,2885·MoM² + 0,2861·MoM³) — função cúbica de Mari, Ultrasound Obstet Gynecol 2005; válida para PVS MoM entre 0,63 e 2,37. Gravidade pela Hb (≤ 0,84 / 0,65 / 0,55 MoM) — Mari 2000/2005. Conduta — protocolos FMF Barcelona / Fetalmed. Estimativa indireta: a Hb real só é confirmada por cordocentese.</div>
       </div>
     </div>
   </div>
