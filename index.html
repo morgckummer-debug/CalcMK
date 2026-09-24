@@ -499,9 +499,16 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
         <div class="sec-title" style="margin-bottom:0">TAPS &mdash; Anemia-Policitemia</div>
         <button class="btn-clear" onclick="limparTAPS()">Limpar</button>
       </div>
+      <div style="margin-top:16px">
+        <div class="mini-label">Curva de refer&ecirc;ncia do PVS-ACM</div>
+        <div class="radio-group">
+          <label class="radio-opt sel" id="taps-curva-mari" onclick="setCurva('mari',this)"><div class="radio-dot"></div> Mari &mdash; feto &uacute;nico</label>
+          <label class="radio-opt" id="taps-curva-klaritsch" onclick="setCurva('klaritsch',this)"><div class="radio-dot"></div> Klaritsch &mdash; monocori&ocirc;nicos</label>
+        </div>
+      </div>
       <div class="frow"><label>Idade gestacional</label>
         <div class="dual">
-          <input type="number" id="taps-sem" class="field" min="16" max="41" placeholder="Sem." oninput="calcTAPS();if(this.value.length>=2)document.getElementById('taps-dias').focus()">
+          <input type="number" id="taps-sem" class="field" min="15" max="41" placeholder="Sem." oninput="calcTAPS();if(this.value.length>=2)document.getElementById('taps-dias').focus()">
           <input type="number" id="taps-dias" class="field" min="0" max="6" placeholder="Dias" oninput="calcTAPS()">
         </div>
       </div>
@@ -555,6 +562,10 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
       <div id="taps-aviso-stff" class="hidden nm" style="background:rgba(155,34,38,.1);border:1px solid rgba(155,34,38,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:#9b2226;line-height:1.6">
         &#9888;&#65039; <strong>Discord&acirc;ncia de l&iacute;quido amni&oacute;tico marcada</strong> &mdash; a TAPS &eacute; definida pela discord&acirc;ncia de hemoglobina <strong>sem</strong> sequ&ecirc;ncia oligo-polidr&acirc;mnio. Com oligo-poli presente o quadro caracteriza <strong>STFF</strong>, que se estadia por <strong>Quintero</strong> &mdash; esta aba n&atilde;o se aplica isoladamente. As duas condi&ccedil;&otilde;es podem coexistir ap&oacute;s laser incompleto.
       </div>
+      <div id="taps-aviso-precoce" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
+        &#9888;&#65039; <strong>Abaixo de 18 semanas as curvas divergem.</strong> Klaritsch mostrou que em monocori&ocirc;nicos o PVS-ACM &eacute; mais alto que em feto &uacute;nico nessa faixa (+26% a 15 sem., +16% a 16 sem., +8% a 17 sem.) &mdash; usar a curva de feto &uacute;nico aqui <strong>superestima o MoM</strong> e gera falso-positivo de anemia. Os autores recomendam a curva de monocori&ocirc;nicos, ao menos antes de 18 semanas.
+        <button type="button" class="btn-clear" style="margin-top:10px" onclick="setCurva('klaritsch',document.getElementById('taps-curva-klaritsch'))">Usar a curva de Klaritsch</button>
+      </div>
       <div id="taps-aviso-ig" class="hidden nm" style="background:rgba(180,106,26,.12);border:1px solid rgba(180,106,26,.3);border-radius:16px;padding:14px 16px;font-size:12px;color:var(--clay);line-height:1.6">
         &#9888;&#65039; <strong>IG fora da faixa validada</strong> &mdash; o nomograma de Mari foi constru&iacute;do para 18&ndash;40 semanas. Fora dessa faixa a PVS mediana &eacute; <strong>extrapolada</strong> e os MoM servem apenas como orienta&ccedil;&atilde;o.
       </div>
@@ -606,7 +617,7 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
         <div style="margin-top:12px;font-size:11px;color:var(--text2);background:rgba(139,63,189,.07);border-radius:10px;padding:10px 12px;line-height:1.6">
           <strong>TAPS &times; STFF:</strong> ambas ocorrem em monocori&ocirc;nicos, mas a TAPS resulta de anastomoses <em>muito finas</em> (&lt; 1 mm) e cursa com discord&acirc;ncia de hemoglobina <strong>sem</strong> a sequ&ecirc;ncia oligo-polidr&acirc;mnio. Pode ser espont&acirc;nea (3&ndash;5% das monocori&ocirc;nicas) ou p&oacute;s-laser, por anastomoses residuais &mdash; da&iacute; o rastreio obrigat&oacute;rio do PVS-ACM ap&oacute;s o tratamento da STFF.
         </div>
-        <div style="margin-top:10px;font-size:11px;color:var(--text3)">PVS mediana = e^(2,31 + 0,04643 &times; IG) &mdash; Mari <em>et al.</em>, N Engl J Med 2000; Klaritsch <em>et al.</em> (Ultrasound Obstet Gynecol 2009) mostraram que as faixas de refer&ecirc;ncia em monocori&ocirc;nicos s&atilde;o sobrepon&iacute;veis &agrave;s de feto &uacute;nico, e &eacute; sobre essa mediana que os dois sistemas definem o MoM. Estadiamento por Leiden &mdash; Slaghekke <em>et al.</em>, Fetal Diagn Ther 2010;27:181-90; delta de MoM &mdash; Tollenaar <em>et al.</em>, Ultrasound Obstet Gynecol 2019;53:788-93. Ferramenta de apoio: n&atilde;o substitui a avalia&ccedil;&atilde;o individualizada nem o julgamento cl&iacute;nico.</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3)">Duas curvas dispon&iacute;veis para a mediana do PVS-ACM. <strong>Mari</strong> (feto &uacute;nico): e^(2,31 + 0,04643 &times; IG) &mdash; N Engl J Med 2000, validada de 18 a 40 semanas; &eacute; a refer&ecirc;ncia sobre a qual Leiden e Tollenaar derivaram e validaram os pontos de corte, e por isso &eacute; o padr&atilde;o aqui. <strong>Klaritsch</strong> (monocori&ocirc;nicos diamni&oacute;ticos): Tabela 3 de Ultrasound Obstet Gynecol 2009, 50 gesta&ccedil;&otilde;es n&atilde;o complicadas, 824 medidas, de 15 a 37 semanas, com interpola&ccedil;&atilde;o linear entre semanas inteiras. Entre 18 e 37 semanas as duas s&atilde;o equivalentes (diferen&ccedil;a &lt; 5%); antes de 18 semanas o PVS-ACM &eacute; mais alto em monocori&ocirc;nicos e os autores recomendam a curva espec&iacute;fica. Estadiamento por Leiden &mdash; Slaghekke <em>et al.</em>, Fetal Diagn Ther 2010;27:181-90; delta de MoM &mdash; Tollenaar <em>et al.</em>, Ultrasound Obstet Gynecol 2019;53:788-93. Ferramenta de apoio: n&atilde;o substitui a avalia&ccedil;&atilde;o individualizada nem o julgamento cl&iacute;nico.</div>
       </div>
     </div>
   </div>
@@ -765,6 +776,24 @@ function limparMCA(){
 }
 
 /* ── TAPS / Sequencia anemia-policitemia ── */
+let curCurva='mari';
+function setCurva(c,el){
+  curCurva=c;
+  document.getElementById('taps-curva-mari').classList.remove('sel');
+  document.getElementById('taps-curva-klaritsch').classList.remove('sel');
+  el.classList.add('sel');
+  calcTAPS();
+}
+// Mediana do PVS-ACM em monocorionicos diamnioticos, 15 a 37 semanas
+// (Klaritsch et al., Ultrasound Obstet Gynecol 2009, Tabela 3, coluna 1,0 MoM).
+const PSV_MCDA={15:25.40,16:24.50,17:24.01,18:23.90,19:24.14,20:24.68,21:25.52,
+  22:26.61,23:27.94,24:29.48,25:31.21,26:33.10,27:35.11,28:37.22,29:39.39,
+  30:41.58,31:43.74,32:45.83,33:47.80,34:49.61,35:51.20,36:52.52,37:53.52};
+function medianaKlaritsch(GA){
+  const lo=Math.floor(GA), frac=GA-lo;
+  if(lo>=37) return PSV_MCDA[37];
+  return PSV_MCDA[lo]+(PSV_MCDA[lo+1]-PSV_MCDA[lo])*frac;
+}
 function tapsChk(el){ el.classList.toggle('sel'); calcTAPS(); }
 function tapsOn(id){ return document.getElementById(id).classList.contains('sel'); }
 
@@ -784,12 +813,19 @@ function calcTAPS(){
   if(!sem||!pa||!pb||pa<=0||pb<=0) return esconder('Informe a IG e o pico de velocidade sist\u00f3lica da ACM dos dois fetos.');
 
   const GA=sem+(dias/7);
-  if(GA<16||GA>41) return esconder('IG fora da faixa do nomograma (16\u201341 semanas). O ACM-PVS de Mari \u00e9 validado entre 18 e 40 semanas.');
+  // Cada curva tem a sua faixa: Mari 18\u201340 (aceitamos 16\u201341 com aviso de extrapola\u00e7\u00e3o),
+  // Klaritsch 15\u201337, que \u00e9 todo o intervalo publicado \u2014 fora dele n\u00e3o h\u00e1 o que extrapolar.
+  if(curCurva==='klaritsch'){
+    if(GA<15||GA>37) return esconder('A curva de Klaritsch cobre 15\u201337 semanas. Fora dessa faixa, use a curva de Mari.');
+  } else if(GA<16||GA>41){
+    return esconder('IG fora da faixa do nomograma (16\u201341 semanas). O ACM-PVS de Mari \u00e9 validado entre 18 e 40 semanas.');
+  }
 
-  // Mediana do PVS-ACM por IG \u2014 mesma curva de Mari usada na aba de Anemia Fetal.
-  // Klaritsch mostrou que as faixas em monocori\u00f4nicos s\u00e3o sobrepon\u00edveis \u00e0s de feto \u00fanico,
-  // e \u00e9 sobre essa mediana que Leiden e Tollenaar definem o MoM de cada gemelar.
-  const mediana=Math.exp(2.31+(0.04643*GA));
+  // Mediana do PVS-ACM por IG. Mari \u00e9 o padr\u00e3o: \u00e9 a refer\u00eancia sobre a qual Leiden e
+  // Tollenaar derivaram os pontos de corte, e a mesma usada na aba de Anemia Fetal.
+  // Klaritsch d\u00e1 a curva espec\u00edfica de monocori\u00f4nicos \u2014 equivalente entre 18 e 37 semanas,
+  // mas nitidamente mais alta antes de 18, onde a curva de feto \u00fanico superestima o MoM.
+  const mediana=(curCurva==='klaritsch')?medianaKlaritsch(GA):Math.exp(2.31+(0.04643*GA));
   const momA=pa/mediana, momB=pb/mediana;
 
   // Doador = maior PVS (an\u00eamico) \u00b7 Receptor = menor PVS (policit\u00eamico)
@@ -870,7 +906,8 @@ function calcTAPS(){
   }
 
   const fmt=v=>v.toFixed(2).replace('.',',');
-  document.getElementById('taps-med').textContent=mediana.toFixed(1)+' cm/s  (1,50 MoM = '+(mediana*1.5).toFixed(1)+' cm/s)';
+  document.getElementById('taps-med').textContent=mediana.toFixed(1)+' cm/s  \u00b7 '
+    +(curCurva==='klaritsch'?'Klaritsch':'Mari')+'  (1,50 MoM = '+(mediana*1.5).toFixed(1)+' cm/s)';
   document.getElementById('taps-moma').textContent=fmt(momA)+' MoM  ('+pa.toFixed(1)+' cm/s)';
   document.getElementById('taps-momb').textContent=fmt(momB)+' MoM  ('+pb.toFixed(1)+' cm/s)';
   document.getElementById('taps-doador').innerHTML='<span style="color:#9b2226;font-weight:700">Feto '+(doadorA?'1':'2')+' \u2014 '+fmt(momD)+' MoM</span>';
@@ -889,7 +926,9 @@ function calcTAPS(){
   document.getElementById('taps-conduta').classList.remove('hidden');
 
   document.getElementById('taps-aviso-stff').classList.toggle('hidden', !stff);
-  document.getElementById('taps-aviso-ig').classList.toggle('hidden', GA>=18&&GA<=40);
+  // Antes de 18 semanas as curvas divergem: alertamos so quando a de feto unico esta em uso.
+  document.getElementById('taps-aviso-precoce').classList.toggle('hidden', !(GA<18&&curCurva==='mari'));
+  document.getElementById('taps-aviso-ig').classList.toggle('hidden', curCurva==='klaritsch'||(GA>=18&&GA<=40));
   document.getElementById('taps-aviso-diverg').classList.toggle('hidden', leiden.n===novos.n);
   res.classList.remove('hidden');emp.classList.add('hidden');
 }
@@ -900,7 +939,8 @@ function limparTAPS(){
   document.getElementById('taps-empty-msg').textContent='Informe a IG e o pico de velocidade sist\u00f3lica da ACM dos dois fetos.';
   document.getElementById('taps-res').classList.add('hidden');
   document.getElementById('taps-conduta').classList.add('hidden');
-  ['taps-aviso-stff','taps-aviso-ig','taps-aviso-diverg']
+  setCurva('mari',document.getElementById('taps-curva-mari'));
+  ['taps-aviso-stff','taps-aviso-precoce','taps-aviso-ig','taps-aviso-diverg']
     .forEach(id=>document.getElementById(id).classList.add('hidden'));
   document.getElementById('taps-empty').classList.remove('hidden');
 }
