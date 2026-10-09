@@ -109,6 +109,13 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
 .bdg{display:inline-block;font-size:8px;font-weight:800;padding:3px 7px;border-radius:20px;margin-left:7px;
   background:rgba(255,255,255,.35);color:#fff;vertical-align:middle;letter-spacing:.8px;text-transform:uppercase}
 .bdg.p{background:rgba(162,90,52,.1);color:var(--text2)}
+.acomp-wrap{margin:-4px 0 14px}
+.acomp-opts{display:flex;flex-wrap:wrap;gap:6px}
+.acomp-opt{padding:7px 12px;border:1px solid rgba(107,49,145,.28);border-radius:50px;background:rgba(255,255,255,.4);
+  color:var(--purple1);font-size:11.5px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:.15s}
+.acomp-opt.sel{background:var(--purple);border-color:transparent;color:#fff}
+.ex-sub{display:block;font-size:11px;font-weight:500;opacity:.8;margin-top:2px}
+.acomp-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:6px;font-size:12px;color:var(--text2);font-weight:600}
 .imc-box{text-align:center;padding:22px;border-radius:20px;margin-bottom:16px;background:linear-gradient(135deg,#8B3FBD,#5a2080);
   box-shadow:0 16px 34px -16px rgba(107,49,145,.5)}
 .iv{font-family:var(--serif);font-size:54px;color:#fff;line-height:1}
@@ -237,10 +244,23 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
       </div>
       <div class="nm">
         <div class="sec-title">Períodos para exames</div>
+        <div class="acomp-wrap">
+          <div class="mini-label" style="margin-bottom:8px">Acompanhamento</div>
+          <div class="acomp-opts" id="acomp-group">
+            <button type="button" class="acomp-opt sel" onclick="setAcomp('',this)">Nenhum</button>
+            <button type="button" class="acomp-opt" onclick="setAcomp('essencial',this)">Essencial</button>
+            <button type="button" class="acomp-opt" onclick="setAcomp('premium',this)">Premium</button>
+            <button type="button" class="acomp-opt" onclick="setAcomp('gemelar',this)">Gemelar DC</button>
+          </div>
+        </div>
         <table class="ex-table">
           <thead><tr><th>Exame</th><th>De</th><th>Até</th></tr></thead>
           <tbody id="exlist"></tbody>
         </table>
+        <div class="acomp-foot hidden" id="acomp-foot">
+          <span id="acomp-extras"></span>
+          <button type="button" class="btn-clear" onclick="copiarAcomp()">Copiar datas</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1052,6 +1072,36 @@ const EX=[
   {n:"Morfológico 2º tri",si:22,di:0,sf:24,df:0},
   {n:"Obstétrico 3º tri",si:28,di:0,sf:34,df:0}
 ];
+// Acompanhamento Gestacional: exames de cada modalidade, com a janela em semanas+dias.
+// Morfológicos usam as mesmas janelas do EX acima; exames de semana única vão de Xs0d a Xs6d.
+const ACOMP={
+  essencial:{nome:'Essencial',extras:1,ex:['m1','colo','m2','d28','d32','d36']},
+  premium:{nome:'Premium',extras:2,ex:['m1','colo','m2','d28','d32','m3','d38']},
+  gemelar:{nome:'Gemelar dicoriônica',extras:2,ex:['m1','colo','m2','d28','d32','m3','d38']}
+};
+const ACOMP_EX={
+  m1:{n:'Morfológico 1º tri',si:12,di:0,sf:13,df:5},
+  colo:{n:'Obstétrico com colo',si:16,di:0,sf:18,df:0},
+  m2:{n:'Morfológico 2º tri',sub:'com colo e Doppler',si:22,di:0,sf:24,df:0},
+  d28:{n:'Doppler + PBF',si:28,di:0,sf:28,df:6},
+  d32:{n:'Doppler + PBF',si:32,di:0,sf:32,df:6},
+  d36:{n:'Doppler + PBF',si:36,di:0,sf:36,df:6},
+  m3:{n:'Morfológico 3º tri',sub:'com Doppler',si:36,di:0,sf:36,df:6},
+  d38:{n:'Doppler + PBF',si:38,di:0,sf:38,df:6}
+};
+let curAcomp='',acompTexto='';
+function setAcomp(m,el){
+  curAcomp=m;
+  document.querySelectorAll('#acomp-group .acomp-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  calc();
+}
+function copiarAcomp(){
+  const t=acompTexto;if(!t)return;
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}ta.remove();};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).catch(fb);else fb();
+}
 function calc(){
   let dum=null;
   const hoje=new Date();hoje.setHours(0,0,0,0);
@@ -1095,14 +1145,23 @@ function calc(){
     '<span class="ig-n">'+Math.floor(diff/7)+'</span><span class="ig-u">sem</span> '+
     '<span class="ig-n">'+(diff%7)+'</span><span class="ig-u">d</span>';
   const tb=document.getElementById('exlist');tb.innerHTML='';
-  EX.forEach(ex=>{
+  const plano=ACOMP[curAcomp];
+  const lista=plano?plano.ex.map(k=>ACOMP_EX[k]):EX;
+  const foot=document.getElementById('acomp-foot');
+  foot.classList.toggle('hidden',!plano);
+  if(plano){
+    document.getElementById('acomp-extras').textContent='+ '+plano.extras+' ultrassom'+(plano.extras>1?'s extras':' extra')+', quando a gestante pedir';
+    acompTexto=['Acompanhamento '+plano.nome+' · DPP '+fmt(dpp)].concat(lista.filter(ex=>hoje<=new Date(+dum+(ex.sf*7+ex.df)*864e5)).map(ex=>
+      '- '+ex.n+(ex.sub?' ('+ex.sub+')':'')+': de '+fmt(new Date(+dum+(ex.si*7+ex.di)*864e5))+' a '+fmt(new Date(+dum+(ex.sf*7+ex.df)*864e5)))).join('\n');
+  }
+  lista.forEach(ex=>{
     const ini=new Date(+dum+(ex.si*7+ex.di)*864e5),
           fim=new Date(+dum+(ex.sf*7+ex.df)*864e5);
     const gone=hoje>fim,now=hoje>=ini&&hoje<=fim;
     const tr=document.createElement('tr');
     tr.className='ex-row'+(now?' now':gone?' past':'');
     const bdg=now?'<span class="bdg">Agora</span>':gone?'<span class="bdg p">Passou</span>':'';
-    tr.innerHTML='<td>'+ex.n+bdg+'</td><td>'+fmt(ini)+'</td><td>'+fmt(fim)+'</td>';
+    tr.innerHTML='<td>'+ex.n+bdg+(ex.sub?'<span class="ex-sub">'+ex.sub+'</span>':'')+'</td><td>'+fmt(ini)+'</td><td>'+fmt(fim)+'</td>';
     tb.appendChild(tr);
   });
   showRes();
