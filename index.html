@@ -1084,12 +1084,12 @@ const ACOMP={
 const ACOMP_EX={
   m1:{n:'Morfológico 1º tri',si:12,di:0,sf:13,df:5},
   colo:{n:'Obstétrico com colo',si:16,di:0,sf:18,df:0},
-  m2:{n:'Morfológico 2º tri',sub:'com colo e Doppler',si:22,di:0,sf:24,df:0},
-  d28:{n:'Doppler + PBF',si:28,di:0,sf:28,df:6},
-  d32:{n:'Doppler + PBF',si:32,di:0,sf:32,df:6},
-  d36:{n:'Doppler + PBF',si:36,di:0,sf:36,df:6},
+  m2:{n:'Morfológico 2º tri',sub:'com colo e Doppler',si:21,di:0,sf:26,df:0},
+  d28:{n:'Doppler + PBF',si:28,di:0,sf:28,df:6,tol:7},
+  d32:{n:'Doppler + PBF',si:32,di:0,sf:32,df:6,tol:7},
+  d36:{n:'Doppler + PBF',si:36,di:0,sf:36,df:6,tol:7},
   m3:{n:'Morfológico 3º tri',sub:'com Doppler',si:36,di:0,sf:36,df:6},
-  d38:{n:'Doppler + PBF',si:38,di:0,sf:38,df:6}
+  d38:{n:'Doppler + PBF',si:38,di:0,sf:38,df:6,tol:7}
 };
 let curAcomp='',acompTexto='';
 function setAcomp(m,el){
@@ -1153,17 +1153,19 @@ function calc(){
   foot.classList.toggle('hidden',!plano);
   if(plano){
     document.getElementById('acomp-extras').textContent='+ '+plano.extras+' ultrassom'+(plano.extras>1?'s extras':' extra')+', quando a gestante pedir';
-    acompTexto=['Acompanhamento '+plano.nome+' · DPP '+fmt(dpp)].concat(lista.filter(ex=>hoje<=new Date(+dum+(ex.sf*7+ex.df)*864e5)).map(ex=>
-      '- '+ex.n+(ex.sub?' ('+ex.sub+')':'')+': de '+fmt(new Date(+dum+(ex.si*7+ex.di)*864e5))+' a '+fmt(new Date(+dum+(ex.sf*7+ex.df)*864e5)))).join('\n');
+    acompTexto=['Acompanhamento '+plano.nome+' · DPP '+fmt(dpp)].concat(lista.filter(ex=>hoje<=new Date(+dum+(ex.sf*7+ex.df+(ex.tol||0))*864e5)).map(ex=>
+      '- '+ex.n+(ex.sub?' ('+ex.sub+')':'')+': de '+fmt(new Date(+dum+(ex.si*7+ex.di)*864e5))+' a '+fmt(new Date(+dum+(ex.sf*7+ex.df)*864e5))+(ex.tol?' (tolerância até '+fmt(new Date(+dum+(ex.sf*7+ex.df+ex.tol)*864e5))+')':''))).join('\n');
   }
   lista.forEach(ex=>{
     const ini=new Date(+dum+(ex.si*7+ex.di)*864e5),
           fim=new Date(+dum+(ex.sf*7+ex.df)*864e5);
-    const gone=hoje>fim,now=hoje>=ini&&hoje<=fim;
+    const tolFim=ex.tol?new Date(+fim+ex.tol*864e5):null;
+    const inTol=!!tolFim&&hoje>fim&&hoje<=tolFim;
+    const gone=hoje>(tolFim||fim),now=(hoje>=ini&&hoje<=fim)||inTol;
     const tr=document.createElement('tr');
     tr.className='ex-row'+(now?' now':gone?' past':'');
-    const bdg=now?'<span class="bdg">Agora</span>':gone?'<span class="bdg p">Passou</span>':'';
-    tr.innerHTML='<td>'+ex.n+bdg+(ex.sub?'<span class="ex-sub">'+ex.sub+'</span>':'')+'</td><td>'+fmt(ini)+'</td><td>'+fmt(fim)+'</td>';
+    const bdg=inTol?'<span class="bdg">Tolerância</span>':now?'<span class="bdg">Agora</span>':gone?'<span class="bdg p">Passou</span>':'';
+    tr.innerHTML='<td>'+ex.n+bdg+(ex.sub?'<span class="ex-sub">'+ex.sub+'</span>':'')+(tolFim?'<span class="ex-sub">tolerância até '+fmt(tolFim)+'</span>':'')+'</td><td>'+fmt(ini)+'</td><td>'+fmt(fim)+'</td>';
     tb.appendChild(tr);
   });
   showRes();
