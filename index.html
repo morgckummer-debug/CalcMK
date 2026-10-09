@@ -250,7 +250,8 @@ body{font-family:var(--sans);color:var(--text);padding:20px 14px 60px;position:r
             <button type="button" class="acomp-opt sel" onclick="setAcomp('',this)">Nenhum</button>
             <button type="button" class="acomp-opt" onclick="setAcomp('essencial',this)">Essencial</button>
             <button type="button" class="acomp-opt" onclick="setAcomp('premium',this)">Premium</button>
-            <button type="button" class="acomp-opt" onclick="setAcomp('gemelar',this)">Gemelar</button>
+            <button type="button" class="acomp-opt" onclick="setAcomp('gemelar_essencial',this)">Gemelar Essencial</button>
+            <button type="button" class="acomp-opt" onclick="setAcomp('gemelar',this)">Gemelar Premium</button>
           </div>
         </div>
         <table class="ex-table">
@@ -1077,7 +1078,8 @@ const EX=[
 const ACOMP={
   essencial:{nome:'Essencial',extras:1,ex:['m1','colo','m2','d28','d32','d36']},
   premium:{nome:'Premium',extras:2,ex:['m1','colo','m2','d28','d32','m3','d38']},
-  gemelar:{nome:'Gemelar',extras:2,ex:['m1','colo','m2','d28','d32','m3','d38']}
+  gemelar_essencial:{nome:'Gemelar Essencial',extras:1,ex:['m1','colo','m2','d28','d32','d36']},
+  gemelar:{nome:'Gemelar Premium',extras:2,ex:['m1','colo','m2','d28','d32','m3','d38']}
 };
 const ACOMP_EX={
   m1:{n:'Morfológico 1º tri',si:12,di:0,sf:13,df:5},
